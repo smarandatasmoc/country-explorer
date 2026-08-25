@@ -214,8 +214,8 @@ function Profile() {
   return (
     <div>
       <h1>My List</h1>
-      <NavigationButton path="/country"/>
 
+      <NavigationButton path="/country"/>
       <LogOutButton/>
 
       {error && <p>Error: {error}</p>}
@@ -302,6 +302,7 @@ function Profile() {
             >
               Remove
             </button>
+            
             <ImageUploader
               listItemId={item.id}
               onUploaded={(newImages) => {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { addListItem } from '../lib/listItems'
 import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
@@ -8,10 +7,6 @@ import {
   searchCountries,
   type Country as CountryType,
 } from '../api/countriesAPI'
-
-import {
-  getProfile,
-} from '../lib/profile'
 
 function Country() {
   const [search, setSearch] = useState('')
@@ -22,9 +17,6 @@ function Country() {
 
   const [selectedCountry, setSelectedCountry] =
     useState<CountryType | null>(null)
-
-  const [savedCountry, setSavedCountry] =
-    useState<string | null>(null)
 
   const [loading, setLoading] = useState(false)
 
@@ -38,25 +30,6 @@ function Country() {
 
   const [addMessage, setAddMessage] = 
     useState<string | null>(null)
-
-  useEffect(() => {
-    async function loadProfile() {
-      try {
-        const profile = await getProfile()
-
-        if (profile?.country_code) {
-          setSavedCountry(profile.country_code)
-        }
-      } catch (error) {
-        console.error(
-          'Failed to load profile:',
-          error
-        )
-      }
-    }
-
-    loadProfile()
-  }, [])
 
   useEffect(() => {
     const trimmedSearch = search.trim()
@@ -144,16 +117,9 @@ function Country() {
 
   return (
     <div>
-      <h1>Choose a country</h1>
+      <h1>Country Search</h1>
       <NavigationButton path="/profile"/>
       <LogOutButton/>
-
-      {savedCountry && (
-        <p>
-          Your saved country:{' '}
-          <strong>{savedCountry}</strong>
-        </p>
-      )}
 
       <input
         type="search"
