@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { useNavigate } from 'react-router-dom'
 
 type AuthMode = 'login' | 'register'
 
@@ -11,6 +12,8 @@ function Auth() {
 
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate()
 
   const handleSubmit = async () => {
     setMessage('')
@@ -40,6 +43,9 @@ function Auth() {
 
       if (error) {
         setMessage(error.message)
+      }
+      else{
+        navigate('/country')
       }
     }
 
