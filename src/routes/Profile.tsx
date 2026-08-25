@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
 import LogOutButton from '../components/LogOutButton'
+import NavigationButton from '../components/NavigationButton'
 
 import {
   deleteListItem,
@@ -36,8 +36,6 @@ function Profile() {
   const [imageUrls, setImageUrls] = useState<
     Record<number, string>
   >({})
-
-  //const navigate = useNavigate()
 
   useEffect(() => {
   async function loadItems() {
@@ -213,30 +211,10 @@ function Profile() {
     return <p>Error: {error}</p>
   }
 
-/*  const handleLogout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut()
-
-      if (error) {
-        throw error
-      }
-
-      navigate('/login')
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message)
-      } else {
-        setError('Failed to log out.')
-      }
-    }
-  }*/
-
   return (
     <div>
       <h1>My List</h1>
-      <Link to="/country">
-        Find More Countries
-      </Link> 
+      <NavigationButton path="/country"/>
 
       <LogOutButton/>
 

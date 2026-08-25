@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { addListItem } from '../lib/listItems'
 import LogOutButton from '../components/LogOutButton'
+import NavigationButton from '../components/NavigationButton'
 
 import {
   searchCountries,
@@ -144,9 +145,7 @@ function Country() {
   return (
     <div>
       <h1>Choose a country</h1>
-      <Link to="/profile">
-        My Profile
-      </Link>
+      <NavigationButton path="/profile"/>
       <LogOutButton/>
 
       {savedCountry && (
