@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import LogOutButton from '../components/LogOutButton'
 
 import {
   deleteListItem,
@@ -36,7 +37,7 @@ function Profile() {
     Record<number, string>
   >({})
 
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
 
   useEffect(() => {
   async function loadItems() {
@@ -212,7 +213,7 @@ function Profile() {
     return <p>Error: {error}</p>
   }
 
-  const handleLogout = async () => {
+/*  const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut()
 
@@ -228,17 +229,17 @@ function Profile() {
         setError('Failed to log out.')
       }
     }
-  }
+  }*/
 
   return (
     <div>
       <h1>My List</h1>
       <Link to="/country">
         Find More Countries
-      </Link>
-      <button onClick={handleLogout}>
-        Log out
-      </button>
+      </Link> 
+
+      <LogOutButton/>
+
       {error && <p>Error: {error}</p>}
 
       {items.length === 0 ? (
