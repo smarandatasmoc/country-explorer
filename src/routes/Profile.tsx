@@ -211,9 +211,9 @@ function Profile() {
 
   return (
     <div>
-      <h1>My Countries</h1>
+      <h1>My List</h1>
       <Link to="/country">
-        Find Countries
+        Find More Countries
       </Link>
       {error && <p>Error: {error}</p>}
 
@@ -236,14 +236,21 @@ function Profile() {
               Status:{' '}
 
               <select
-                value={item.status}
-                onChange={(event) =>
+                value={item.status ?? ''}
+                onChange={(event) => {
+                  const value = event.target.value
+
                   handleStatusChange(
                     item.id,
-                    event.target.value as ListItemStatus
+                    value ===''
+                    ? null
+                    : (value as ListItemStatus)
                   )
-                }
+                }}
               >
+                <option value="">
+                  Select
+                </option>   
                 <option value="want">
                   Want to visit
                 </option>
@@ -252,6 +259,7 @@ function Profile() {
                   Visited
                 </option>
               </select>
+
             </label>
 
             <br />

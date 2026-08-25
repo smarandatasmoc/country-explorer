@@ -1,6 +1,9 @@
 import { supabase } from './supabase'
 
-export type ListItemStatus = 'want' | 'visited'
+export type ListItemStatus = 
+  | 'want' 
+  | 'visited'
+  | null
 
 export type ListItem = {
   id: number
@@ -44,7 +47,7 @@ export async function addListItem(
       user_id: user.id,
       country_code: countryCode,
       country_name: countryName,
-      status: 'want',
+      status: null,
     })
     .select()
     .single()
