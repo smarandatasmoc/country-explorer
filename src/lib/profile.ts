@@ -29,7 +29,7 @@ export async function getProfile(): Promise<Profile | null> {
   return data
 }
 
-export async function saveCountry(
+/*export async function saveCountry(
   countryCode: string,
   countryName: string
 ): Promise<void> {
@@ -53,4 +53,4 @@ export async function saveCountry(
   if (error) {
     throw error
   }
-}
+}*/

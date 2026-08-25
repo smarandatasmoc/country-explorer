@@ -9,7 +9,6 @@ import {
 
 import {
   getProfile,
-  saveCountry,
 } from '../lib/profile'
 
 function Country() {
@@ -106,33 +105,6 @@ function Country() {
     }
   }, [search])
 
-  const handleSaveCountry = async () => {
-    if (!selectedCountry) {
-      return
-    }
-
-    try {
-      setSaving(true)
-      setError(null)
-
-      await saveCountry(
-        selectedCountry.codes.alpha_2,
-        selectedCountry.names.common
-      )
-
-      setSavedCountry(
-        selectedCountry.codes.alpha_2
-      )
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message)
-      } else {
-        setError('Failed to save country')
-      }
-    } finally {
-      setSaving(false)
-    }
-  }
   const handleAddToList = async () => {
   if (!selectedCountry) {
     return
@@ -256,14 +228,6 @@ function Country() {
             {selectedCountry.codes.alpha_2}
           </p>
 
-          <button
-            onClick={handleSaveCountry}
-            disabled={saving}
-          >
-            {saving
-              ? 'Saving...'
-              : 'Save this country'}
-          </button>
           <button
             onClick={handleAddToList}
             disabled={adding}
