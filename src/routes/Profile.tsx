@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+
 import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
+import ProfileBoard from '../components/ProfileBoard'
 
 import {
   deleteListItem,
@@ -18,8 +19,6 @@ import {
   type ListItemImage,
 } from '../lib/images'
 
-import ImageUploader from '../components/ImageUploader'
-
 function Profile() {
   const [items, setItems] = useState<ListItem[]>([])
 
@@ -30,7 +29,7 @@ function Profile() {
   )
 
   const [images, setImages] = useState<
-  Record<number, ListItemImage[]>
+    Record<number, ListItemImage[]>
   >({})
 
   const [imageUrls, setImageUrls] = useState<
@@ -38,57 +37,57 @@ function Profile() {
   >({})
 
   useEffect(() => {
-  async function loadItems() {
-    try {
-      setLoading(true)
-      setError(null)
+    async function loadItems() {
+      try {
+        setLoading(true)
+        setError(null)
 
-      const data = await getListItems()
+        const data = await getListItems()
 
-      setItems(data)
+        setItems(data)
 
-      const imagesByItem: Record<
-        number,
-        ListItemImage[]
-      > = {}
+        const imagesByItem: Record<
+          number,
+          ListItemImage[]
+        > = {}
 
-      const urlsByImage: Record<
-        number,
-        string
-      > = {}
+        const urlsByImage: Record<
+          number,
+          string
+        > = {}
 
-      for (const item of data) {
-        const itemImages =
-          await getImagesForListItem(item.id)
+        for (const item of data) {
+          const itemImages =
+            await getImagesForListItem(item.id)
 
-        imagesByItem[item.id] = itemImages
+          imagesByItem[item.id] = itemImages
 
-        const urls = await getImageUrls(
-          itemImages
-        )
+          const urls = await getImageUrls(
+            itemImages
+          )
 
-        Object.assign(
-          urlsByImage,
-          urls
-        )
+          Object.assign(
+            urlsByImage,
+            urls
+          )
+        }
+
+        setImages(imagesByItem)
+        setImageUrls(urlsByImage)
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError(
+            'Failed to load your countries.'
+          )
+        }
+      } finally {
+        setLoading(false)
       }
-
-      setImages(imagesByItem)
-      setImageUrls(urlsByImage)
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message)
-      } else {
-        setError(
-          'Failed to load your countries.'
-        )
-      }
-    } finally {
-      setLoading(false)
     }
-  }
 
-  loadItems()
+    loadItems()
   }, [])
 
   const handleStatusChange = async (
@@ -108,7 +107,9 @@ function Profile() {
       if (error instanceof Error) {
         setError(error.message)
       } else {
-        setError('Failed to update country.')
+        setError(
+          'Failed to update country.'
+        )
       }
     }
   }
@@ -148,77 +149,102 @@ function Profile() {
     }
   }
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (
+    id: number
+  ) => {
     try {
       await deleteListItem(id)
 
       setItems((currentItems) =>
-        currentItems.filter((item) => item.id !== id)
+        currentItems.filter(
+          (item) => item.id !== id
+        )
       )
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message)
       } else {
-        setError('Failed to delete country.')
+        setError(
+          'Failed to delete country.'
+        )
       }
     }
   }
 
   const handleDeleteImage = async (
-  image: ListItemImage
-) => {
-  const confirmed = window.confirm(
-    'Are you sure you want to delete this image?'
-  )
+    image: ListItemImage
+  ) => {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this image?'
+    )
 
-  if (!confirmed) {
-    return
-  }
+    if (!confirmed) {
+      return
+    }
 
-  try {
-    await deleteImage(image)
+    try {
+      await deleteImage(image)
 
-    setImages((currentImages) => ({
-      ...currentImages,
-      [image.list_item_id]:
-        currentImages[image.list_item_id].filter(
-          (currentImage) =>
-            currentImage.id !== image.id
-        ),
-    }))
+      setImages((currentImages) => ({
+        ...currentImages,
+        [image.list_item_id]:
+          currentImages[
+            image.list_item_id
+          ].filter(
+            (currentImage) =>
+              currentImage.id !== image.id
+          ),
+      }))
 
-    setImageUrls((currentUrls) => {
-      const updatedUrls = { ...currentUrls }
+      setImageUrls((currentUrls) => {
+        const updatedUrls = {
+          ...currentUrls,
+        }
 
-      delete updatedUrls[image.id]
+        delete updatedUrls[image.id]
 
-      return updatedUrls
-    })
-  } catch (error) {
-    if (error instanceof Error) {
-      setError(error.message)
-    } else {
-      setError('Failed to delete image.')
+        return updatedUrls
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError(
+          'Failed to delete image.'
+        )
+      }
     }
   }
-}
 
   if (loading) {
-    return <p>Loading your countries...</p>
+    return (
+      <p>
+        Loading your countries...
+      </p>
+    )
   }
 
   if (error && items.length === 0) {
-    return <p>Error: {error}</p>
+    return (
+      <p>
+        Error: {error}
+      </p>
+    )
   }
 
   return (
     <div>
       <h1>My List</h1>
 
-      <NavigationButton path="/country"/>
-      <LogOutButton/>
+      <NavigationButton path="/country" />
 
-      {error && <p>Error: {error}</p>}
+      <LogOutButton />
+
+      {error && (
+        <p>
+          Error: {error}
+        </p>
+      )}
 
       {items.length === 0 ? (
         <p>
@@ -226,152 +252,53 @@ function Profile() {
         </p>
       ) : (
         items.map((item) => (
-          <div key={item.id}>
-            <h2>
-              {item.country_name}
-            </h2>
-
-            <p>
-              Country code: {item.country_code}
-            </p>
-
-            <label>
-              Status:{' '}
-
-              <select
-                value={item.status ?? ''}
-                onChange={(event) => {
-                  const value = event.target.value
-
-                  handleStatusChange(
-                    item.id,
-                    value ===''
-                    ? null
-                    : (value as ListItemStatus)
-                  )
-                }}
-              >
-                <option value="">
-                  Select
-                </option>   
-                <option value="want">
-                  Want to visit
-                </option>
-
-                <option value="visited">
-                  Visited
-                </option>
-              </select>
-
-            </label>
-
-            <br />
-
-            <label>
-              Note:
-              <br />
-
-              <textarea
-                value={item.note ?? ''}
-                onChange={(event) =>
-                  handleNoteChange(
-                    item.id,
-                    event.target.value
-                  )
-                }
-              />
-            </label>
-
-            <br />
-
-            <button
-              onClick={() =>
-                handleSaveNote(
-                  item.id,
-                  item.note ?? ''
-                )
-              }
-            >
-              Save note
-            </button>
-
-            <button
-              onClick={() =>
-                handleDelete(item.id)
-              }
-            >
-              Remove
-            </button>
-            
-            <ImageUploader
-              listItemId={item.id}
-              onUploaded={(newImages) => {
-                setImages((currentImages) => ({
+          <ProfileBoard
+            key={item.id}
+            item={item}
+            images={images[item.id] ?? []}
+            imageUrls={imageUrls}
+            onStatusChange={
+              handleStatusChange
+            }
+            onNoteChange={
+              handleNoteChange
+            }
+            onSaveNote={
+              handleSaveNote
+            }
+            onDelete={
+              handleDelete
+            }
+            onDeleteImage={
+              handleDeleteImage
+            }
+            onImagesUploaded={(
+              newImages
+            ) => {
+              setImages(
+                (currentImages) => ({
                   ...currentImages,
                   [item.id]: [
-                    ...(currentImages[item.id] ?? []),
+                    ...(currentImages[
+                      item.id
+                    ] ?? []),
                     ...newImages,
                   ],
-                }))
+                })
+              )
 
-                getImageUrls(newImages).then((newUrls) => {
-                  setImageUrls((currentUrls) => ({
+              getImageUrls(
+                newImages
+              ).then((newUrls) => {
+                setImageUrls(
+                  (currentUrls) => ({
                     ...currentUrls,
                     ...newUrls,
-                  }))
-                })
-              }}
-            />
-
-            <hr />
-            {images[item.id]?.length > 0 && (
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '15px',
-                  flexWrap: 'wrap',
-                  marginTop: '15px',
-                }}
-              >
-                {images[item.id].map((image) => {
-                  const url = imageUrls[image.id]
-
-                  if (!url) {
-                    return null
-                  }
-
-                  return (
-                    <div
-                      key={image.id}
-                      style={{
-                        position: 'relative',
-                      }}
-                    >
-                      <img
-                        src={url}
-                        alt={item.country_name}
-                        style={{
-                          width: '200px',
-                          height: '150px',
-                          objectFit: 'cover',
-                          borderRadius: '8px',
-                          display: 'block',
-                        }}
-                      />
-
-                      <button
-                        onClick={() =>
-                          handleDeleteImage(image)
-                        }
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
+                  })
+                )
+              })
+            }}
+          />
         ))
       )}
     </div>

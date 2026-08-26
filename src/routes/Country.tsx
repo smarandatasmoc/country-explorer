@@ -21,8 +21,6 @@ function Country() {
 
   const [loading, setLoading] = useState(false)
 
-  const [saving, setSaving] = useState(false)
-
   const [error, setError] = useState<string | null>(
     null
   )
