@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { addListItem } from '../lib/listItems'
 import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
+import { searchCountries } from '../api/searchCountries'
 
-import {
-  searchCountries,
-  type Country as CountryType,
-} from '../api/countriesAPI'
+import {type Country as CountryType,} from '../api/countriesAPI'
+import SelectedListItem from '../components/SelectedListItem'
+import SearchBar from '../components/SearchBar' 
+import DisplayList from '../components/DisplayListTemp'
 
 function Country() {
   const [search, setSearch] = useState('')
@@ -121,13 +122,9 @@ function Country() {
       <NavigationButton path="/profile"/>
       <LogOutButton/>
 
-      <input
-        type="search"
-        placeholder="Search for a country..."
-        value={search}
-        onChange={(event) =>
-          setSearch(event.target.value)
-        }
+      <SearchBar 
+        search={search} 
+        onSearchChange={setSearch}
       />
 
       {loading && <p>Searching...</p>}
@@ -141,77 +138,18 @@ function Country() {
           <p>No countries found.</p>
         )}
 
-      {countries.length > 0 && (
-        <ul>
-          {countries.map((country) => (
-            <li key={country.codes.alpha_2}>
-              <button
-                onClick={() =>
-                  setSelectedCountry(country)
-                }
-              >
-                {country.flag.emoji}{' '}
-                {country.names.common}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-
+      <DisplayList 
+      countries={countries} 
+      onSelectedCountry={setSelectedCountry}/>
+      
       {selectedCountry && (
-        <div>
-          <h2>
-            {selectedCountry.flag.emoji}{' '}
-            {selectedCountry.names.common}
-          </h2>
-
-          <p>
-            Official name:{' '}
-            {selectedCountry.names.official}
-          </p>
-
-          <p>
-            Capital:{' '}
-            {selectedCountry.capital?.join(', ') ||
-              'N/A'}
-          </p>
-
-          <p>
-            Region: {selectedCountry.region}
-          </p>
-
-          <p>
-            Subregion:{' '}
-            {selectedCountry.subregion || 'N/A'}
-          </p>
-
-          <p>
-            Population:{' '}
-            {selectedCountry.population.toLocaleString()}
-          </p>
-
-          <p>
-            ISO code:{' '}
-            {selectedCountry.codes.alpha_2}
-          </p>
-
-          <button
-            onClick={handleAddToList}
-            disabled={adding}
-            >
-            {adding ? 'Adding...' : 'Add to my list'}
-            </button>
-
-            {addMessage && <p>{addMessage}</p>}
-
-          <button
-            onClick={() =>
-              setSelectedCountry(null)
-            }
-          >
-            Close
-          </button>
-        </div>
+        <SelectedListItem
+          country={selectedCountry}
+          adding={adding}
+          addMessage={addMessage}
+          onAddToList={handleAddToList}
+          onClose={() => setSelectedCountry(null)}
+        />
       )}
     </div>
   )
