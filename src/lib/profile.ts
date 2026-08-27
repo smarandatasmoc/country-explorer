@@ -28,29 +28,3 @@ export async function getProfile(): Promise<Profile | null> {
 
   return data
 }
-
-/*export async function saveCountry(
-  countryCode: string,
-  countryName: string
-): Promise<void> {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    throw new Error('User is not authenticated')
-  }
-
-  const { error } = await supabase
-    .from('profiles')
-    .upsert({
-      id: user.id,
-      country_code: countryCode,
-      country_name: countryName,
-      updated_at: new Date().toISOString(),
-    })
-
-  if (error) {
-    throw error
-  }
-}*/

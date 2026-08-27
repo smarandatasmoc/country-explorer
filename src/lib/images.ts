@@ -138,7 +138,7 @@ export async function getImagesForListItem(
 export async function deleteImage(
   image: ListItemImage
 ): Promise<void> {
-  // 1. Delete the actual file from Storage
+  //Delete file from Storage
   const { error: storageError } =
     await supabase.storage
       .from('travel-images')
@@ -148,7 +148,7 @@ export async function deleteImage(
     throw storageError
   }
 
-  // 2. Delete the database record
+  //Delete database record
   const { error: databaseError } =
     await supabase
       .from('list_item_images')
