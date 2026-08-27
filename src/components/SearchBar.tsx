@@ -5,6 +5,7 @@ type CountrySearchProps = {
 export default function SearchBar ({search, onSearchChange}:CountrySearchProps) {
    return(
     <input
+        className="search-input"
         type="search"
         placeholder="Search for a country..."
         value={search}

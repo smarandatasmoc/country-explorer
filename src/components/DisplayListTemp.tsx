@@ -9,7 +9,7 @@ export default function DisplayList ({countries, onSelectedCountry} : DisplayLis
     return (
         <div>
             {countries.length > 0 && (
-                <ul>
+                <ul className="country-result">
                 {countries.map((country) => (
                     <li key={country.codes.alpha_2}>
                     <button

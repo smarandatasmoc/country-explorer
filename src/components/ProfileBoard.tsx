@@ -56,7 +56,7 @@ export default function ProfileBoard({
   onImagesUploaded,
 }: ProfileBoardProps) {
   return (
-    <div>
+    <div className='profile-board'>
       <h2>
         {item.country_name}
       </h2>
@@ -69,6 +69,7 @@ export default function ProfileBoard({
         Status:{' '}
 
         <select
+          className='status-select'
           value={item.status ?? ''}
           onChange={(event) => {
             const value = event.target.value
@@ -102,6 +103,7 @@ export default function ProfileBoard({
         <br />
 
         <textarea
+          className='note-input'
           value={item.note ?? ''}
           onChange={(event) =>
             onNoteChange(
@@ -125,12 +127,12 @@ export default function ProfileBoard({
         Save note
       </button>
 
-      <button
+      <button className='button-danger'
         onClick={() =>
           onDelete(item.id)
         }
       >
-        Remove
+        Remove From List
       </button>
 
       <ImageUploader
@@ -138,16 +140,11 @@ export default function ProfileBoard({
         onUploaded={onImagesUploaded}
       />
 
-      <hr />
+      <br />
 
       {images.length > 0 && (
         <div
-          style={{
-            display: 'flex',
-            gap: '15px',
-            flexWrap: 'wrap',
-            marginTop: '15px',
-          }}
+          className='image-gallery'
         >
           {images.map((image) => {
             const url = imageUrls[image.id]
@@ -162,7 +159,8 @@ export default function ProfileBoard({
                 style={{
                   position: 'relative',
                 }}
-              >
+                className='image-card'
+              > 
                 <img
                   src={url}
                   alt={item.country_name}

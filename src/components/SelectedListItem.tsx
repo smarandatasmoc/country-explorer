@@ -51,6 +51,7 @@ export default function SelectedListItem (
           </p>
 
           <button
+          className='country-actions'
             onClick={onAddToList}
             disabled={adding}
             >
@@ -60,6 +61,7 @@ export default function SelectedListItem (
             {addMessage && <p>{addMessage}</p>}
 
           <button
+            className='button-secondary'
             onClick={onClose}
           >
             Close

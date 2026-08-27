@@ -54,6 +54,7 @@ function Auth() {
 
   return (
     <div>
+      <div className="page-container">
       <h1>
         {mode === 'login' ? 'Login' : 'Create account'}
       </h1>
@@ -100,6 +101,7 @@ function Auth() {
           ? 'Create a new account'
           : 'Already have an account? Login'}
       </button>
+    </div>
     </div>
   )
 }

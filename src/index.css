@@ -1,0 +1,365 @@
+/*Navigate to a css section using CTRL + F section_name*/
+
+/*Table of contents*/
+/*------------------*/
+/* css variables */
+/* global reset */
+/*page container */
+/*navbar*/
+/*buttons*/
+/*search*/ 
+/* cards for display list on country search page */
+/* 'Add to my list' and 'Close' buttons inside selected country card 
+on search page*/
+/*profile cards*/
+/*status in profile board card*/
+/*notes*/
+/*images on profile page*/
+/*responsive design*/
+
+/* css variables */
+:root {
+  --color-primary: #176b87;
+  --color-primary-dark: #12556b;
+  --color-accent: #f4a261;
+
+  --color-background: #f7f5f0;
+  --color-surface: #ffffff;
+
+  --color-text: #24323d;
+  --color-text-muted: #687780;
+
+  --color-border: #dce3e6;
+
+  --color-success: #3a8f5c;
+  --color-danger: #c94c4c;
+
+  --radius-small: 6px;
+  --radius-medium: 10px;
+  --radius-large: 16px;
+
+  --shadow-small:
+    0 2px 6px rgba(0, 0, 0, 0.08);
+
+  --shadow-medium:
+    0 6px 20px rgba(0, 0, 0, 0.1);
+
+  --max-width: 1100px;
+}
+
+/* global reset */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/*page container */
+.page-container {
+  width: min(100% - 32px, var(--max-width));
+  margin: 0 auto;
+  padding: 40px 0 80px;
+}
+
+/*navbar*/
+
+.navbar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar-content {
+  width: min(100% - 32px, var(--max-width));
+  min-height: 70px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/*buttons*/
+
+button {
+  border: none;
+  border-radius: var(--radius-small);
+
+  padding: 10px 16px;
+
+  background: var(--color-primary);
+  color: white;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+button:hover {
+  background: var(--color-primary-dark);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button-danger {
+  background: var(--color-danger);
+}
+
+.button-danger:hover {
+  background: #a83e3e;
+}
+
+/*search*/ 
+
+.search-input {
+  width: 100%;
+  padding: 14px 16px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+
+  background: white;
+
+  font-size: 1rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(23, 107, 135, 0.15);
+}
+
+/* cards for display list on country search page */
+
+.country-results {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(220px, 1fr));
+
+  gap: 16px;
+
+  padding: 0;
+  margin: 24px 0;
+
+  list-style: none;
+  
+}
+
+.country-result {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+
+  box-shadow: var(--shadow-small);
+
+  overflow: hidden;
+}
+
+.country-result button {
+  width: 100%;
+
+  padding: 18px;
+
+  background: transparent;
+  color: var(--color-text);
+
+  text-align: left;
+}
+
+.country-result button:hover {
+  background: #f1f7f8;
+}
+
+/* card for selected country on country search page */
+
+.country-details {
+  margin-top: 30px;
+
+  padding: 28px;
+
+  background: var(--color-surface);
+
+  border-radius: var(--radius-large);
+
+  box-shadow: var(--shadow-medium);
+}
+
+.country-details h2 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.country-details p {
+  color: var(--color-text-muted);
+}
+
+/* 'Add to my list' and 'Close' buttons inside selected country card 
+on search page*/
+
+.country-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.button-secondary:hover {
+  background: #eef7f8;
+}
+
+/*profile cards*/
+
+.profile-board {
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-large);
+
+  padding: 24px;
+
+  margin-bottom: 24px;
+
+  box-shadow: var(--shadow-small);
+}
+
+/*status in profile board card*/
+.status-select {
+  padding: 8px 12px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+
+  background: white;
+}
+
+/*notes*/
+
+.note-input {
+  width: 100%;
+
+  min-height: 120px;
+
+  padding: 12px;
+
+  resize: vertical;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+
+  background: white;
+}
+
+.note-input:focus {
+  outline: none;
+
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(23, 107, 135, 0.15);
+}
+
+/*images on profile page*/
+
+.image-gallery {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(180px, 1fr));
+
+  gap: 16px;
+
+  margin-top: 16px;
+}
+
+.image-card {
+  overflow: hidden;
+
+  border-radius: var(--radius-medium);
+
+  background: #eee;
+}
+
+.image-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+/*responsive design*/
+
+@media (max-width: 700px) {
+  .navbar-content {
+    flex-direction: column;
+    align-items: stretch;
+
+    padding: 16px 0;
+  }
+
+  .nav-actions {
+    flex-wrap: wrap;
+  }
+
+  .country-details {
+    padding: 20px;
+  }
+
+  .country-actions {
+    flex-direction: column;
+  }
+
+  .country-actions button {
+    width: 100%;
+  }
+}

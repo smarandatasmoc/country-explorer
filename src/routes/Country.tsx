@@ -3,6 +3,7 @@ import { addListItem } from '../lib/listItems'
 import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
 import { searchCountries } from '../api/searchCountries'
+import NavBar from '../components/NavBar'
 
 import {type Country as CountryType,} from '../api/countriesAPI'
 import SelectedListItem from '../components/SelectedListItem'
@@ -116,10 +117,11 @@ function Country() {
 
   return (
     <div>
+      <div className="page-container">
       <h1>Country Search</h1>
-      <NavigationButton path="/profile"/>
-      <LogOutButton/>
+      <NavBar/>
 
+      
       <SearchBar 
         search={search} 
         onSearchChange={setSearch}
@@ -149,6 +151,7 @@ function Country() {
           onClose={() => setSelectedCountry(null)}
         />
       )}
+    </div>
     </div>
   )
 }

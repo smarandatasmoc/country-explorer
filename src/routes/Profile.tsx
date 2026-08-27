@@ -4,6 +4,8 @@ import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
 import ProfileBoard from '../components/ProfileBoard'
 
+import NavBar from '../components/NavBar'
+
 import {
   deleteListItem,
   getListItems,
@@ -234,11 +236,9 @@ function Profile() {
 
   return (
     <div>
+      <div className="page-container">
       <h1>My List</h1>
-
-      <NavigationButton path="/country" />
-
-      <LogOutButton />
+      <NavBar/>
 
       {error && (
         <p>
@@ -302,6 +302,7 @@ function Profile() {
         ))
       )}
     </div>
+  </div>
   )
 }
 

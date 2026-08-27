@@ -17,6 +17,7 @@ function Home() {
 
   return (
     <div>
+      <div className="page-container">
       <h1>Home</h1>
 
       <p>
@@ -24,6 +25,7 @@ function Home() {
       </p>
 
       <button onClick={moveToLoginPage}>Login</button>
+    </div>
     </div>
   )
 }
