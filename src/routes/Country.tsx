@@ -3,12 +3,7 @@ import { addListItem } from '../lib/listItems'
 import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
 import { searchCountries } from '../api/searchCountries'
-import NavBar from '../components/NavBar'
-
 import {type Country as CountryType,} from '../api/countriesAPI'
-import SelectedListItem from '../components/SelectedListItem'
-import SearchBar from '../components/SearchBar' 
-import DisplayList from '../components/DisplayListTemp'
 
 function Country() {
   const [search, setSearch] = useState('')
@@ -241,106 +236,127 @@ function Country() {
         </section>
       )}
 
-
       {selectedCountry && (
-        <section className="country-details">
+        <>
+          {/* Optional dark overlay */}
+          <div
+            className="country-details-overlay"
+            onClick={() => setSelectedCountry(null)}
+          />
 
-          <div className="country-details-header">
-
-            <div className="large-country-flag">
-              {selectedCountry.flag.emoji}
-            </div>
-
-            <div>
-              <p className="eyebrow">
-                COUNTRY DETAILS
-              </p>
-
-              <h2>
-                {selectedCountry.names.common}
-              </h2>
-
-              <p>
-                {selectedCountry.names.official}
-              </p>
-            </div>
-
-          </div>
-
-
-          <div className="country-information">
-
-            <div className="country-info-item">
-              <span>Capital</span>
-              <strong>
-                {selectedCountry.capital?.join(', ') ||
-                  'N/A'}
-              </strong>
-            </div>
-
-            <div className="country-info-item">
-              <span>Region</span>
-              <strong>
-                {selectedCountry.region}
-              </strong>
-            </div>
-
-            <div className="country-info-item">
-              <span>Subregion</span>
-              <strong>
-                {selectedCountry.subregion || 'N/A'}
-              </strong>
-            </div>
-
-            <div className="country-info-item">
-              <span>Population</span>
-              <strong>
-                {selectedCountry.population.toLocaleString()}
-              </strong>
-            </div>
-
-            <div className="country-info-item">
-              <span>ISO code</span>
-              <strong>
-                {selectedCountry.codes.alpha_2}
-              </strong>
-            </div>
-
-          </div>
-
-
-          <div className="country-actions">
+          {/* Side panel */}
+          <aside className="country-details">
 
             <button
-              className="button-primary"
-              onClick={handleAddToList}
-              disabled={adding}
+              className="country-details-close"
+              onClick={() => setSelectedCountry(null)}
+              aria-label="Close country details"
             >
-              {adding
-                ? 'Adding...'
-                : '＋ Add to my list'}
+              ×
             </button>
 
-            <button
-              className="button-secondary"
-              onClick={() =>
-                setSelectedCountry(null)
-              }
-            >
-              Close
-            </button>
+            <div className="country-details-content">
 
-          </div>
+              <div className="country-details-header">
+
+                <div className="large-country-flag">
+                  {selectedCountry.flag.emoji}
+                </div>
+
+                <div>
+                  <p className="eyebrow">
+                    COUNTRY DETAILS
+                  </p>
+
+                  <h2>
+                    {selectedCountry.names.common}
+                  </h2>
+
+                  <p>
+                    {selectedCountry.names.official}
+                  </p>
+                </div>
+
+              </div>
 
 
-          {addMessage && (
-            <div className="message">
-              {addMessage}
+              <div className="country-information">
+
+                <div className="country-info-item">
+                  <span>Capital</span>
+
+                  <strong>
+                    {selectedCountry.capital?.join(', ') ||
+                      'N/A'}
+                  </strong>
+                </div>
+
+
+                <div className="country-info-item">
+                  <span>Region</span>
+
+                  <strong>
+                    {selectedCountry.region}
+                  </strong>
+                </div>
+
+
+                <div className="country-info-item">
+                  <span>Subregion</span>
+
+                  <strong>
+                    {selectedCountry.subregion || 'N/A'}
+                  </strong>
+                </div>
+
+
+                <div className="country-info-item">
+                  <span>Population</span>
+
+                  <strong>
+                    {selectedCountry.population.toLocaleString()}
+                  </strong>
+                </div>
+
+
+                <div className="country-info-item">
+                  <span>ISO code</span>
+
+                  <strong>
+                    {selectedCountry.codes.alpha_2}
+                  </strong>
+                </div>
+
+              </div>
+
+
+              <div className="country-actions">
+
+                <button
+                  className="button-primary"
+                  onClick={handleAddToList}
+                  disabled={adding}
+                >
+                  {adding
+                    ? 'Adding...'
+                    : '＋ Add to my list'}
+                </button>
+
+              </div>
+
+
+              {addMessage && (
+                <div className="message">
+                  {addMessage}
+                </div>
+              )}
+
             </div>
-          )}
 
-        </section>
+          </aside>
+        </>
       )}
+      
 
     </main>
   </div>

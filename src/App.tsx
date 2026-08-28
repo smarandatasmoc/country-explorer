@@ -45,8 +45,12 @@ function App() {
         />
 
         <Route
-        path="/profile/country/:id"
-        element={<CountryDetails/>}
+          path="/country/:code"
+          element={
+            <ProtectedRoute>
+              <CountryDetails />
+            </ProtectedRoute>
+          }
         />
         
       </Routes>
