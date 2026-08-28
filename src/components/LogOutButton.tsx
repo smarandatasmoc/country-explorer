@@ -26,10 +26,11 @@ export default function LogOutButton () {
     }
 
     return(
-        <div>
-            <button onClick={handleLogout}>
-                Log out
-            </button>
-        </div>
+        <button
+        className="nav-button"
+        onClick={handleLogout}
+        >
+        Log out
+        </button>
     )
 }

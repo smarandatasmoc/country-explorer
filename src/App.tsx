@@ -10,6 +10,7 @@ import Country from './routes/Country'
 import Profile from './routes/Profile'
 import Home from './routes/Home'
 import ProtectedRoute from './hooks/ProtectedRoute'
+import CountryDetails from './routes/CountryDetails'
 
 function App() {
   return (
@@ -42,6 +43,12 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+        path="/profile/country/:id"
+        element={<CountryDetails/>}
+        />
+        
       </Routes>
     </BrowserRouter>
   )

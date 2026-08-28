@@ -159,3 +159,46 @@ export async function deleteImage(
     throw databaseError
   }
 }
+
+export async function getCoverImage(
+  listItemId: number
+): Promise<ListItemImage | null> {
+
+  const { data, error } = await supabase
+    .from('list_item_images')
+    .select('*')
+    .eq('list_item_id', listItemId)
+    .order('created_at', {
+      ascending: true,
+    })
+    .limit(1)
+    .maybeSingle()
+
+  if (error) {
+    throw error
+  }
+
+  return data as ListItemImage | null
+}
+
+export async function getImageCount(
+  listItemId: number
+): Promise<number> {
+
+  const {
+    count,
+    error,
+  } = await supabase
+    .from('list_item_images')
+    .select('*', {
+      count: 'exact',
+      head: true,
+    })
+    .eq('list_item_id', listItemId)
+
+  if (error) {
+    throw error
+  }
+
+  return count ?? 0
+}

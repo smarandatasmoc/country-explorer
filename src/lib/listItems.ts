@@ -95,3 +95,31 @@ export async function deleteListItem(
     throw error
   }
 }
+
+export async function getListItem(
+  id: number
+): Promise<ListItem> {
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error(
+      'User is not authenticated'
+    )
+  }
+
+  const { data, error } = await supabase
+    .from('list_items')
+    .select('*')
+    .eq('id', id)
+    .eq('user_id', user.id)
+    .single()
+
+  if (error) {
+    throw error
+  }
+
+  return data as ListItem
+}

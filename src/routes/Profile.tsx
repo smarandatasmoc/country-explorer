@@ -4,79 +4,39 @@ import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
 import ProfileBoard from '../components/ProfileBoard'
 
-import NavBar from '../components/NavBar'
-
 import {
-  deleteListItem,
   getListItems,
-  updateListItem,
   type ListItem,
-  type ListItemStatus,
 } from '../lib/listItems'
 
-import {
-  getImagesForListItem,
-  getImageUrls,
-  deleteImage,
-  type ListItemImage,
-} from '../lib/images'
-
 function Profile() {
-  const [items, setItems] = useState<ListItem[]>([])
 
-  const [loading, setLoading] = useState(true)
+  const [items, setItems] =
+    useState<ListItem[]>([])
 
-  const [error, setError] = useState<string | null>(
-    null
-  )
+  const [loading, setLoading] =
+    useState(true)
 
-  const [images, setImages] = useState<
-    Record<number, ListItemImage[]>
-  >({})
+  const [error, setError] =
+    useState<string | null>(null)
 
-  const [imageUrls, setImageUrls] = useState<
-    Record<number, string>
-  >({})
 
   useEffect(() => {
+
     async function loadItems() {
+
       try {
+
         setLoading(true)
         setError(null)
 
-        const data = await getListItems()
+        const data =
+          await getListItems()
 
         setItems(data)
 
-        const imagesByItem: Record<
-          number,
-          ListItemImage[]
-        > = {}
-
-        const urlsByImage: Record<
-          number,
-          string
-        > = {}
-
-        for (const item of data) {
-          const itemImages =
-            await getImagesForListItem(item.id)
-
-          imagesByItem[item.id] = itemImages
-
-          const urls = await getImageUrls(
-            itemImages
-          )
-
-          Object.assign(
-            urlsByImage,
-            urls
-          )
-        }
-
-        setImages(imagesByItem)
-        setImageUrls(urlsByImage)
       } catch (error) {
+
         if (error instanceof Error) {
           setError(error.message)
         } else {
@@ -84,139 +44,18 @@ function Profile() {
             'Failed to load your countries.'
           )
         }
+
       } finally {
+
         setLoading(false)
+
       }
     }
 
     loadItems()
+
   }, [])
 
-  const handleStatusChange = async (
-    id: number,
-    status: ListItemStatus
-  ) => {
-    try {
-      const updatedItem =
-        await updateListItem(id, { status })
-
-      setItems((currentItems) =>
-        currentItems.map((item) =>
-          item.id === id ? updatedItem : item
-        )
-      )
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message)
-      } else {
-        setError(
-          'Failed to update country.'
-        )
-      }
-    }
-  }
-
-  const handleNoteChange = (
-    id: number,
-    note: string
-  ) => {
-    setItems((currentItems) =>
-      currentItems.map((item) =>
-        item.id === id
-          ? { ...item, note }
-          : item
-      )
-    )
-  }
-
-  const handleSaveNote = async (
-    id: number,
-    note: string
-  ) => {
-    try {
-      const updatedItem =
-        await updateListItem(id, { note })
-
-      setItems((currentItems) =>
-        currentItems.map((item) =>
-          item.id === id ? updatedItem : item
-        )
-      )
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message)
-      } else {
-        setError('Failed to save note.')
-      }
-    }
-  }
-
-  const handleDelete = async (
-    id: number
-  ) => {
-    try {
-      await deleteListItem(id)
-
-      setItems((currentItems) =>
-        currentItems.filter(
-          (item) => item.id !== id
-        )
-      )
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message)
-      } else {
-        setError(
-          'Failed to delete country.'
-        )
-      }
-    }
-  }
-
-  const handleDeleteImage = async (
-    image: ListItemImage
-  ) => {
-    const confirmed = window.confirm(
-      'Are you sure you want to delete this image?'
-    )
-
-    if (!confirmed) {
-      return
-    }
-
-    try {
-      await deleteImage(image)
-
-      setImages((currentImages) => ({
-        ...currentImages,
-        [image.list_item_id]:
-          currentImages[
-            image.list_item_id
-          ].filter(
-            (currentImage) =>
-              currentImage.id !== image.id
-          ),
-      }))
-
-      setImageUrls((currentUrls) => {
-        const updatedUrls = {
-          ...currentUrls,
-        }
-
-        delete updatedUrls[image.id]
-
-        return updatedUrls
-      })
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message)
-      } else {
-        setError(
-          'Failed to delete image.'
-        )
-      }
-    }
-  }
 
   if (loading) {
     return (
@@ -226,6 +65,7 @@ function Profile() {
     )
   }
 
+
   if (error && items.length === 0) {
     return (
       <p>
@@ -234,75 +74,183 @@ function Profile() {
     )
   }
 
+
   return (
-    <div>
-      <div className="page-container">
-      <h1>My List</h1>
-      <NavBar/>
+    <div className="app-page">
 
-      {error && (
-        <p>
-          Error: {error}
-        </p>
-      )}
+      <header className="page-header">
 
-      {items.length === 0 ? (
-        <p>
-          You haven't added any countries yet.
-        </p>
-      ) : (
-        items.map((item) => (
-          <ProfileBoard
-            key={item.id}
-            item={item}
-            images={images[item.id] ?? []}
-            imageUrls={imageUrls}
-            onStatusChange={
-              handleStatusChange
-            }
-            onNoteChange={
-              handleNoteChange
-            }
-            onSaveNote={
-              handleSaveNote
-            }
-            onDelete={
-              handleDelete
-            }
-            onDeleteImage={
-              handleDeleteImage
-            }
-            onImagesUploaded={(
-              newImages
-            ) => {
-              setImages(
-                (currentImages) => ({
-                  ...currentImages,
-                  [item.id]: [
-                    ...(currentImages[
-                      item.id
-                    ] ?? []),
-                    ...newImages,
-                  ],
-                })
-              )
+        <div>
 
-              getImageUrls(
-                newImages
-              ).then((newUrls) => {
-                setImageUrls(
-                  (currentUrls) => ({
-                    ...currentUrls,
-                    ...newUrls,
-                  })
-                )
-              })
-            }}
+          <p className="eyebrow">
+            YOUR JOURNEY
+          </p>
+
+          <h1>
+            My Travel List
+          </h1>
+
+          <p className="page-description">
+            Keep track of the places you want
+            to visit and the places you've
+            already explored.
+          </p>
+
+        </div>
+
+
+        <div className="header-actions">
+
+          <NavigationButton
+            path="/country"
           />
-        ))
-      )}
+
+          <LogOutButton />
+
+        </div>
+
+      </header>
+
+
+      <main className="profile-page">
+
+        {error && (
+          <div className="message message-error">
+            {error}
+          </div>
+        )}
+
+
+        {/* SUMMARY */}
+
+        {items.length > 0 && (
+
+          <div className="profile-summary">
+
+            <div className="summary-card">
+
+              <span className="summary-number">
+                {items.length}
+              </span>
+
+              <span className="summary-label">
+                Countries
+              </span>
+
+            </div>
+
+
+            <div className="summary-card">
+
+              <span className="summary-number">
+
+                {
+                  items.filter(
+                    (item) =>
+                      item.status === 'visited'
+                  ).length
+                }
+
+              </span>
+
+              <span className="summary-label">
+                Visited
+              </span>
+
+            </div>
+
+
+            <div className="summary-card">
+
+              <span className="summary-number">
+
+                {
+                  items.filter(
+                    (item) =>
+                      item.status === 'want'
+                  ).length
+                }
+
+              </span>
+
+              <span className="summary-label">
+                Want to visit
+              </span>
+
+            </div>
+
+          </div>
+
+        )}
+
+
+        {/* EMPTY STATE */}
+
+        {items.length === 0 ? (
+
+          <div className="empty-state profile-empty">
+
+            <div className="empty-icon">
+              🧭
+            </div>
+
+            <h2>
+              Your travel list is empty
+            </h2>
+
+            <p>
+              Start exploring countries and
+              add destinations you'd like
+              to visit.
+            </p>
+
+            <NavigationButton
+              path="/country"
+            />
+
+          </div>
+
+        ) : (
+
+          <section className="profile-list">
+
+            <div className="section-heading">
+
+              <div>
+
+                <p className="eyebrow">
+                  YOUR DESTINATIONS
+                </p>
+
+                <h2>
+                  Saved countries
+                </h2>
+
+              </div>
+
+            </div>
+
+
+            <div className="profile-grid">
+
+              {items.map((item) => (
+
+                <ProfileBoard
+                  key={item.id}
+                  item={item}
+                />
+
+              ))}
+
+            </div>
+
+          </section>
+
+        )}
+
+      </main>
+
     </div>
-  </div>
   )
 }
 

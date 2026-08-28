@@ -53,26 +53,32 @@ function Auth() {
   }
 
   return (
-    <div>
-      <div className="page-container">
+
+    <div className="auth-page">
+    <div className="auth-background-shape shape-one"></div>
+    <div className="auth-background-shape shape-two"></div>
+    <div className="auth-background-shape shape-three"></div>
+
+    <div className="auth-card">
+      {
+        <div className="page-container">
       <h1>
         {mode === 'login' ? 'Login' : 'Create account'}
       </h1>
-
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
       />
-
+      <br/>
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(event) => setPassword(event.target.value)}
       />
-
+      <br/>
       <button
         onClick={handleSubmit}
         disabled={loading}
@@ -85,7 +91,7 @@ function Auth() {
       </button>
 
       {message && <p>{message}</p>}
-
+      <br/>
       <button
         onClick={() => {
           setMode(
@@ -102,9 +108,11 @@ function Auth() {
           : 'Already have an account? Login'}
       </button>
     </div>
+      }
+    </div>
+      
     </div>
   )
 }
 
 export default Auth
-

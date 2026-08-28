@@ -116,44 +116,235 @@ function Country() {
 } 
 
   return (
-    <div>
-      <div className="page-container">
-      <h1>Country Search</h1>
-      <NavBar/>
+  <div className="app-page">
 
-      
-      <SearchBar 
-        search={search} 
-        onSearchChange={setSearch}
-      />
+    <header className="page-header">
+      <div>
+        <p className="eyebrow">EXPLORE THE WORLD</p>
+        <h1>Find your next destination</h1>
+        <p className="page-description">
+          Search for a country and add it to your travel list.
+        </p>
+      </div>
 
-      {loading && <p>Searching...</p>}
+      <div className="header-actions">
+        <NavigationButton path="/profile" />
+        <LogOutButton />
+      </div>
+    </header>
 
-      {error && <p>Error: {error}</p>}
+
+    <main className="country-page">
+
+      <section className="search-section">
+
+        <div className="search-box">
+          <span className="search-icon">⌕</span>
+
+          <input
+            className="country-search"
+            type="search"
+            placeholder="Search for a country..."
+            value={search}
+            onChange={(event) =>
+              setSearch(event.target.value)
+            }
+          />
+        </div>
+
+        <p className="search-hint">
+          Search by country name
+        </p>
+
+      </section>
+
+
+      {loading && (
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Searching countries...</p>
+        </div>
+      )}
+
+
+      {error && (
+        <div className="message message-error">
+          {error}
+        </div>
+      )}
+
 
       {!loading &&
         !error &&
         search.trim() &&
         countries.length === 0 && (
-          <p>No countries found.</p>
+          <div className="empty-state">
+            <div className="empty-icon">🌍</div>
+            <h2>No countries found</h2>
+            <p>
+              Try searching for a different country.
+            </p>
+          </div>
         )}
 
-      <DisplayList 
-      countries={countries} 
-      onSelectedCountry={setSelectedCountry}/>
-      
-      {selectedCountry && (
-        <SelectedListItem
-          country={selectedCountry}
-          adding={adding}
-          addMessage={addMessage}
-          onAddToList={handleAddToList}
-          onClose={() => setSelectedCountry(null)}
-        />
+
+      {countries.length > 0 && (
+        <section className="country-results-section">
+
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">SEARCH RESULTS</p>
+              <h2>Countries</h2>
+            </div>
+
+            <span className="result-count">
+              {countries.length} results
+            </span>
+          </div>
+
+
+          <ul className="country-results">
+
+            {countries.map((country) => (
+              <li
+                className="country-result"
+                key={country.codes.alpha_2}
+              >
+                <button
+                  onClick={() =>
+                    setSelectedCountry(country)
+                  }
+                >
+                  <span className="country-flag">
+                    {country.flag.emoji}
+                  </span>
+
+                  <span>
+                    <strong>
+                      {country.names.common}
+                    </strong>
+
+                    <small>
+                      {country.region}
+                    </small>
+                  </span>
+
+                  <span className="country-arrow">
+                    →
+                  </span>
+                </button>
+              </li>
+            ))}
+
+          </ul>
+
+        </section>
       )}
-    </div>
-    </div>
-  )
+
+
+      {selectedCountry && (
+        <section className="country-details">
+
+          <div className="country-details-header">
+
+            <div className="large-country-flag">
+              {selectedCountry.flag.emoji}
+            </div>
+
+            <div>
+              <p className="eyebrow">
+                COUNTRY DETAILS
+              </p>
+
+              <h2>
+                {selectedCountry.names.common}
+              </h2>
+
+              <p>
+                {selectedCountry.names.official}
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="country-information">
+
+            <div className="country-info-item">
+              <span>Capital</span>
+              <strong>
+                {selectedCountry.capital?.join(', ') ||
+                  'N/A'}
+              </strong>
+            </div>
+
+            <div className="country-info-item">
+              <span>Region</span>
+              <strong>
+                {selectedCountry.region}
+              </strong>
+            </div>
+
+            <div className="country-info-item">
+              <span>Subregion</span>
+              <strong>
+                {selectedCountry.subregion || 'N/A'}
+              </strong>
+            </div>
+
+            <div className="country-info-item">
+              <span>Population</span>
+              <strong>
+                {selectedCountry.population.toLocaleString()}
+              </strong>
+            </div>
+
+            <div className="country-info-item">
+              <span>ISO code</span>
+              <strong>
+                {selectedCountry.codes.alpha_2}
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div className="country-actions">
+
+            <button
+              className="button-primary"
+              onClick={handleAddToList}
+              disabled={adding}
+            >
+              {adding
+                ? 'Adding...'
+                : '＋ Add to my list'}
+            </button>
+
+            <button
+              className="button-secondary"
+              onClick={() =>
+                setSelectedCountry(null)
+              }
+            >
+              Close
+            </button>
+
+          </div>
+
+
+          {addMessage && (
+            <div className="message">
+              {addMessage}
+            </div>
+          )}
+
+        </section>
+      )}
+
+    </main>
+  </div>
+)
 }
 
 export default Country

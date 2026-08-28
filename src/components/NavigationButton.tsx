@@ -1,25 +1,24 @@
 import { useNavigate } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-import { useState } from 'react'
-
-type ButtonPath = "/country"  | "/profile"
 
 type NavigationButtonProps = {
-    path:ButtonPath
+  path: string
 }
 
-export default function NavigationButton ({path,}:NavigationButtonProps) {
-    const navigate = useNavigate()
+function NavigationButton({
+  path,
+}: NavigationButtonProps) {
+  const navigate = useNavigate()
 
-    return(
-        <div>
-            <button onClick={() => navigate(path)}>
-                {
-                path === "/country" 
-                ? "Search more countries"
-                : "Visit Your Profile"
-                }               
-            </button>
-        </div>
-    )
+  return (
+    <button
+      className="nav-button"
+      onClick={() => navigate(path)}
+    >
+      {path === '/country'
+        ? 'Search Countries'
+        : 'My Profile'}
+    </button>
+  )
 }
+
+export default NavigationButton
