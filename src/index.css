@@ -62,8 +62,7 @@
 
   --max-width: 1100px;
 }
-
-
+  
 /* =========================
    Reset
    ========================= */
@@ -1909,4 +1908,225 @@ button:disabled {
     grid-template-columns: repeat(2, 1fr);
   }
 
+}
+
+/* ================================
+   PHOTO ALBUM
+================================ */
+
+.photo-album {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(180px, 1fr)
+  );
+  gap: 16px;
+}
+
+.album-photo {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 12px;
+  aspect-ratio: 4 / 3;
+}
+
+.album-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+}
+
+.album-photo:hover img {
+  transform: scale(1.04);
+  filter: brightness(0.85);
+}
+
+
+/* ================================
+   PHOTO VIEWER
+================================ */
+
+.photo-viewer-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.75);
+
+  z-index: 1000;
+
+  padding: 40px;
+}
+
+.photo-viewer {
+  position: relative;
+
+  width: 75vw;
+  height: 75vh;
+
+  max-width: 1200px;
+  max-height: 900px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-viewer-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ================================
+   CLOSE BUTTON
+================================ */
+
+.photo-viewer-close {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+
+  font-size: 30px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  z-index: 2;
+
+  opacity: 0;
+
+  transition:
+    opacity 0.25s ease,
+    background 0.2s ease;
+}
+
+.photo-viewer-close:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+
+/* ================================
+   NAVIGATION
+================================ */
+
+.photo-viewer-controls {
+  position: absolute;
+
+  bottom: 20px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 6px 8px;
+
+  border-radius: 30px;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(8px);
+
+  opacity: 0;
+
+  transition: opacity 0.25s ease;
+}
+
+.photo-controls-visible {
+  opacity: 1;
+}
+
+.photo-nav-button {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  color: white;
+
+  font-size: 32px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.photo-nav-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.photo-counter {
+  min-width: 60px;
+
+  text-align: center;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 768px) {
+  .photo-viewer-overlay {
+    padding: 20px;
+  }
+
+  .photo-viewer {
+    width: 90vw;
+    height: 75vh;
+  }
+
+  .photo-album {
+    grid-template-columns: repeat(
+      2,
+      1fr
+    );
+  }
 }

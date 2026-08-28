@@ -20,14 +20,10 @@ import {
 } from '../lib/images'
 
 import ImageUploader from '../components/ImageUploader'
-
-import NavigationButton from '../components/NavigationButton'
-import LogOutButton from '../components/LogOutButton'
+import PhotoAlbum from '../components/PhotoAlbum'
 
 function CountryDetails() {
-
   const { id } = useParams()
-
   const navigate = useNavigate()
 
   const [item, setItem] =
@@ -45,19 +41,24 @@ function CountryDetails() {
   const [error, setError] =
     useState<string | null>(null)
 
+  const [savingNote, setSavingNote] =
+    useState(false)
 
   /*
-   * LOAD COUNTRY
+   * LOAD COUNTRY + IMAGES
    */
 
   useEffect(() => {
-
     async function loadCountry() {
-
       try {
-
         setLoading(true)
         setError(null)
+
+        if (!id) {
+          throw new Error(
+            'No country ID was provided.'
+          )
+        }
 
         const listItems =
           await getListItems()
@@ -69,19 +70,12 @@ function CountryDetails() {
           )
 
         if (!foundItem) {
-          setError(
-            'Country could not be found.'
+          throw new Error(
+            'Country not found.'
           )
-
-          return
         }
 
         setItem(foundItem)
-
-
-        /*
-         * LOAD IMAGES
-         */
 
         const countryImages =
           await getImagesForListItem(
@@ -89,7 +83,6 @@ function CountryDetails() {
           )
 
         setImages(countryImages)
-
 
         const urls =
           await getImageUrls(
@@ -99,7 +92,6 @@ function CountryDetails() {
         setImageUrls(urls)
 
       } catch (error) {
-
         if (error instanceof Error) {
           setError(error.message)
         } else {
@@ -107,18 +99,13 @@ function CountryDetails() {
             'Failed to load country.'
           )
         }
-
       } finally {
-
         setLoading(false)
-
       }
     }
 
     loadCountry()
-
   }, [id])
-
 
   /*
    * STATUS
@@ -127,12 +114,12 @@ function CountryDetails() {
   const handleStatusChange = async (
     status: ListItemStatus | null
   ) => {
-
     if (!item) {
       return
     }
 
     try {
+      setError(null)
 
       const updatedItem =
         await updateListItem(
@@ -143,7 +130,6 @@ function CountryDetails() {
       setItem(updatedItem)
 
     } catch (error) {
-
       if (error instanceof Error) {
         setError(error.message)
       } else {
@@ -151,10 +137,8 @@ function CountryDetails() {
           'Failed to update status.'
         )
       }
-
     }
   }
-
 
   /*
    * NOTE
@@ -163,29 +147,24 @@ function CountryDetails() {
   const handleNoteChange = (
     note: string
   ) => {
-
-    if (!item) {
-      return
-    }
-
-    setItem({
-      ...item,
-      note,
-    })
+    setItem((currentItem) =>
+      currentItem
+        ? {
+            ...currentItem,
+            note,
+          }
+        : currentItem
+    )
   }
 
-
-  /*
-   * SAVE NOTE
-   */
-
   const handleSaveNote = async () => {
-
     if (!item) {
       return
     }
 
     try {
+      setSavingNote(true)
+      setError(null)
 
       const updatedItem =
         await updateListItem(
@@ -198,7 +177,6 @@ function CountryDetails() {
       setItem(updatedItem)
 
     } catch (error) {
-
       if (error instanceof Error) {
         setError(error.message)
       } else {
@@ -206,24 +184,23 @@ function CountryDetails() {
           'Failed to save note.'
         )
       }
-
+    } finally {
+      setSavingNote(false)
     }
   }
-
 
   /*
    * DELETE COUNTRY
    */
 
   const handleDelete = async () => {
-
     if (!item) {
       return
     }
 
     const confirmed =
       window.confirm(
-        `Remove ${item.country_name} from your list?`
+        `Are you sure you want to remove ${item.country_name} from your list?`
       )
 
     if (!confirmed) {
@@ -231,13 +208,13 @@ function CountryDetails() {
     }
 
     try {
+      setError(null)
 
       await deleteListItem(item.id)
 
       navigate('/profile')
 
     } catch (error) {
-
       if (error instanceof Error) {
         setError(error.message)
       } else {
@@ -245,10 +222,8 @@ function CountryDetails() {
           'Failed to delete country.'
         )
       }
-
     }
   }
-
 
   /*
    * DELETE IMAGE
@@ -257,7 +232,6 @@ function CountryDetails() {
   const handleDeleteImage = async (
     image: ListItemImage
   ) => {
-
     const confirmed =
       window.confirm(
         'Are you sure you want to delete this image?'
@@ -268,34 +242,34 @@ function CountryDetails() {
     }
 
     try {
+      setError(null)
 
       await deleteImage(image)
-
 
       setImages(
         (currentImages) =>
           currentImages.filter(
             (currentImage) =>
-              currentImage.id !== image.id
+              currentImage.id !==
+              image.id
           )
       )
 
-
       setImageUrls(
         (currentUrls) => {
-
           const updatedUrls = {
             ...currentUrls,
           }
 
-          delete updatedUrls[image.id]
+          delete updatedUrls[
+            image.id
+          ]
 
           return updatedUrls
         }
       )
 
     } catch (error) {
-
       if (error instanceof Error) {
         setError(error.message)
       } else {
@@ -303,10 +277,8 @@ function CountryDetails() {
           'Failed to delete image.'
         )
       }
-
     }
   }
-
 
   /*
    * LOADING
@@ -314,12 +286,11 @@ function CountryDetails() {
 
   if (loading) {
     return (
-      <p>
-        Loading country...
-      </p>
+      <div className="app-page">
+        <p>Loading country...</p>
+      </div>
     )
   }
-
 
   /*
    * ERROR
@@ -327,12 +298,7 @@ function CountryDetails() {
 
   if (error && !item) {
     return (
-      <div>
-
-        <p>
-          Error: {error}
-        </p>
-
+      <div className="app-page">
         <button
           onClick={() =>
             navigate('/profile')
@@ -341,15 +307,16 @@ function CountryDetails() {
           ← Back to profile
         </button>
 
+        <p>
+          Error: {error}
+        </p>
       </div>
     )
   }
 
-
   if (!item) {
     return null
   }
-
 
   /*
    * PAGE
@@ -363,61 +330,6 @@ function CountryDetails() {
         <div>
 
           <p className="eyebrow">
-            YOUR JOURNEY
-          </p>
-
-          <h1>
-            My Travel List
-          </h1>
-
-          <p className="page-description">
-            Keep track of the places you want
-            to visit and the places you've
-            already explored.
-          </p>
-
-        </div>
-
-
-        <div className="header-actions">
-
-          <NavigationButton
-            path="/country"
-          />
-
-          <LogOutButton />
-
-        </div>
-
-      </header>
-      {/* BACK */}
-    <div className='page-container'>
-      <button
-        className="back-button"
-        onClick={() =>
-          navigate('/profile')
-        }
-      >
-        ← Back to my countries
-      </button>
-
-
-      {/* ERROR */}
-
-      {error && (
-        <div className="message message-error">
-          {error}
-        </div>
-      )}
-
-
-      {/* COUNTRY HEADER */}
-
-      <header className="country-details-header">
-
-        <div>
-
-          <p className="eyebrow">
             MY DESTINATION
           </p>
 
@@ -425,200 +337,197 @@ function CountryDetails() {
             {item.country_name}
           </h1>
 
-          <p>
-            Country code: {item.country_code}
+          <p className="page-description">
+            {item.country_code}
           </p>
 
         </div>
+
+        <button
+          onClick={() =>
+            navigate('/profile')
+          }
+        >
+          ← Back to profile
+        </button>
 
       </header>
 
+      <main className="profile-page">
 
-      {/* PHOTOS */}
-
-      <section className="album-section">
-
-        <div className="section-heading">
-
-          <h2>
-            My photos
-          </h2>
-
-          <span>
-            {images.length}{' '}
-            {images.length === 1
-              ? 'photo'
-              : 'photos'}
-          </span>
-
-        </div>
-
-
-        {images.length === 0 ? (
-
-          <p className="empty-album">
-            You haven't uploaded any
-            photos yet.
-          </p>
-
-        ) : (
-
-          <div className="photo-album">
-
-            {images.map((image) => {
-
-              const url =
-                imageUrls[image.id]
-
-              if (!url) {
-                return null
-              }
-
-              return (
-                <div
-                  key={image.id}
-                  className="album-photo"
-                >
-
-                  <img
-                    src={url}
-                    alt={item.country_name}
-                  />
-
-                  <button
-                    className="delete-photo-button"
-                    onClick={() =>
-                      handleDeleteImage(
-                        image
-                      )
-                    }
-                  >
-                    Delete
-                  </button>
-
-                </div>
-              )
-            })}
-
+        {error && (
+          <div className="message message-error">
+            {error}
           </div>
         )}
 
-        <br/>
-        <ImageUploader
-          listItemId={item.id}
-          onUploaded={async (
-            newImages
-          ) => {
+        {/* STATUS */}
 
-            setImages(
-              (currentImages) => [
-                ...currentImages,
-                ...newImages,
-              ]
-            )
+        <section className="country-section">
 
-            const newUrls =
-              await getImageUrls(
-                newImages
+          <label htmlFor="country-status">
+            Status
+          </label>
+
+          <select
+            id="country-status"
+            value={item.status ?? ''}
+            onChange={(event) => {
+
+              const value =
+                event.target.value
+
+              handleStatusChange(
+                value === ''
+                  ? null
+                  : (value as ListItemStatus)
               )
 
-            setImageUrls(
-              (currentUrls) => ({
-                ...currentUrls,
-                ...newUrls,
-              })
-            )
+            }}
+          >
 
-          }}
-        />
+            <option value="">
+              Select status
+            </option>
 
-      </section>
+            <option value="want">
+              Want to visit
+            </option>
 
+            <option value="visited">
+              Visited
+            </option>
 
-      {/* STATUS */}
+          </select>
 
-      <section className="country-section">
+        </section>
 
-        <label htmlFor="country-status">
-          Status
-        </label>
+        {/* PHOTOS */}
 
-        <select
-          id="country-status"
-          value={item.status ?? ''}
-          onChange={(event) => {
+        <section className="album-section">
 
-            const value =
-              event.target.value
+          <div className="section-heading">
 
-            handleStatusChange(
-              value === ''
-                ? null
-                : (value as ListItemStatus)
-            )
+            <div>
+              <p className="eyebrow">
+                MEMORIES
+              </p>
 
-          }}
-        >
+              <h2>
+                My photos
+              </h2>
+            </div>
 
-          <option value="">
-            Select status
-          </option>
+            <span>
+              {images.length}{' '}
+              {images.length === 1
+                ? 'photo'
+                : 'photos'}
+            </span>
 
-          <option value="want">
-            Want to visit
-          </option>
+          </div>
 
-          <option value="visited">
-            Visited
-          </option>
+          {images.length === 0 ? (
 
-        </select>
+            <p className="empty-album">
+              You haven't uploaded any
+              photos yet.
+            </p>
 
-      </section>
+          ) : (
 
+            <PhotoAlbum
+              images={images
+                .map(
+                  (image) =>
+                    imageUrls[image.id]
+                )
+                .filter(
+                  (
+                    url
+                  ): url is string =>
+                    Boolean(url)
+                )}
+            />
 
-      {/* NOTE */}
+          )}
 
-      <section className="country-section">
+          <ImageUploader
+            listItemId={item.id}
+            onUploaded={async (
+              newImages
+            ) => {
 
-        <label htmlFor="country-note">
-          Note
-        </label>
+              setImages(
+                (currentImages) => [
+                  ...currentImages,
+                  ...newImages,
+                ]
+              )
 
-        <textarea
-          id="country-note"
-          value={item.note ?? ''}
-          onChange={(event) =>
-            handleNoteChange(
-              event.target.value
-            )
-          }
-          placeholder="Write something about this country..."
-        />
+              const newUrls =
+                await getImageUrls(
+                  newImages
+                )
 
-        <button
-          className="save-note-button"
-          onClick={handleSaveNote}
-        >
-          Save note
-        </button>
+              setImageUrls(
+                (currentUrls) => ({
+                  ...currentUrls,
+                  ...newUrls,
+                })
+              )
 
-      </section>
+            }}
+          />
 
+        </section>
 
-      {/* DELETE */}
+        {/* NOTE */}
 
-      <section className="country-actions">
+        <section className="country-section">
 
-        <button
-          className="remove-country-button"
-          onClick={handleDelete}
-        >
-          Remove from list
-        </button>
+          <label htmlFor="country-note">
+            Note
+          </label>
 
-      </section>
-    </div>
+          <textarea
+            id="country-note"
+            value={item.note ?? ''}
+            onChange={(event) =>
+              handleNoteChange(
+                event.target.value
+              )
+            }
+            placeholder="Write something about this country..."
+          />
+
+          <button
+            className="save-note-button"
+            onClick={handleSaveNote}
+            disabled={savingNote}
+          >
+            {savingNote
+              ? 'Saving...'
+              : 'Save note'}
+          </button>
+
+        </section>
+
+        {/* REMOVE */}
+
+        <section className="country-actions">
+
+          <button
+            className="remove-country-button"
+            onClick={handleDelete}
+          >
+            Remove from list
+          </button>
+
+        </section>
+
+      </main>
+
     </div>
   )
 }
