@@ -8,7 +8,6 @@ import {
 import Auth from './routes/Auth'
 import Country from './routes/Country'
 import Profile from './routes/Profile'
-import Home from './routes/Home'
 import ProtectedRoute from './hooks/ProtectedRoute'
 import CountryDetails from './routes/CountryDetails'
 
@@ -18,12 +17,9 @@ function App() {
       <Routes>
         <Route 
           path="/" 
-          element={<Navigate to="/home" replace />} 
+          element={<Navigate to="/login" replace />} 
         />
-        <Route 
-          path="/home" 
-          element={<Home/>} 
-        />
+        
         <Route path="/login" element={<Auth />} />
 
         <Route
@@ -45,7 +41,7 @@ function App() {
         />
 
         <Route
-          path="/country/:code"
+          path="/profile/country/:id"
           element={
             <ProtectedRoute>
               <CountryDetails />

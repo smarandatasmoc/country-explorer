@@ -7,6 +7,7 @@ type ProtectedRouteProps = {
 }
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
+  
   const [loading, setLoading] = useState(true)
   const [authenticated, setAuthenticated] = useState(false)
 
