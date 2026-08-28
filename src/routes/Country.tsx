@@ -4,6 +4,7 @@ import LogOutButton from '../components/LogOutButton'
 import NavigationButton from '../components/NavigationButton'
 import { searchCountries } from '../api/searchCountries'
 import {type Country as CountryType,} from '../api/countriesAPI'
+import Footer from '../components/Footer'
 
 function Country() {
   const [search, setSearch] = useState('')
@@ -359,6 +360,7 @@ function Country() {
       
 
     </main>
+    <Footer/>
   </div>
 )
 }

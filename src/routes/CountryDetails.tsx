@@ -21,6 +21,7 @@ import {
 
 import ImageUploader from '../components/ImageUploader'
 import PhotoAlbum from '../components/PhotoAlbum'
+import Footer from '../components/Footer'
 
 function CountryDetails() {
   const { id } = useParams()
@@ -527,6 +528,7 @@ function CountryDetails() {
         </section>
 
       </main>
+      <Footer/>
 
     </div>
   )

@@ -834,6 +834,8 @@ button:disabled {
 .app-page {
   min-height: 100vh;
   background: var(--colour-background);
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -2228,5 +2230,59 @@ button:disabled {
 
   .country-details-content {
     padding: 70px 24px 30px;
+  }
+}
+
+/*Footer*/
+
+.site-footer {
+  width: 100%;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--colour-palette-1);
+}
+
+.footer-content {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+  padding: 32px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.footer-brand {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--colour-palette-3);
+}
+
+.footer-text {
+  margin: 0;
+  max-width: 420px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+}
+
+.footer-copyright {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 700px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px 0;
+  }
+
+  .footer-text {
+    order: 3;
   }
 }

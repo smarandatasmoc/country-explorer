@@ -8,6 +8,7 @@ import {
   getListItems,
   type ListItem,
 } from '../lib/listItems'
+import Footer from '../components/Footer'
 
 function Profile() {
 
@@ -249,7 +250,7 @@ function Profile() {
         )}
 
       </main>
-
+      <Footer/>
     </div>
   )
 }
