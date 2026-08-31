@@ -280,15 +280,14 @@ function Country() {
 
               </div>
 
-
               <div className="country-information">
 
                 <div className="country-info-item">
                   <span>Capital</span>
 
                   <strong>
-                    {selectedCountry.capital?.join(', ') ||
-                      'N/A'}
+                    {selectedCountry.capitals.map((capital) => capital.name).join(', ') 
+                    || 'N/A'}
                   </strong>
                 </div>
 
@@ -310,15 +309,14 @@ function Country() {
                   </strong>
                 </div>
 
-
                 <div className="country-info-item">
-                  <span>Population</span>
+                  <span>Continents</span>
 
                   <strong>
-                    {selectedCountry.population.toLocaleString()}
+                    {selectedCountry.continents.join(', ')
+                    || 'N/A'}
                   </strong>
                 </div>
-
 
                 <div className="country-info-item">
                   <span>ISO code</span>
@@ -328,8 +326,273 @@ function Country() {
                   </strong>
                 </div>
 
-              </div>
+                <div className="country-info-item">
+                  <span>Landlocked</span>
 
+                  <strong>
+                    {selectedCountry.landlocked 
+                    ? "Yes"
+                    : "No"}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Area</span>
+
+                  <strong>
+                    {selectedCountry.area.kilometers} km<sup>2</sup>
+                    <br />
+                    {selectedCountry.area.miles} miles<sup>2</sup>
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Borders</span>
+
+                  <strong>
+                    {selectedCountry.borders.join(', ')
+                    || 'N/A'}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Units</span>
+
+                  <strong>
+                    {`Measurement system: ${selectedCountry.units.measurement_system}`}
+                    <br/>
+                    {`Temperature scale: ${selectedCountry.units.temperature_scale}`}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Population</span>
+
+                  <strong>
+                    {selectedCountry.population.toLocaleString()}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Timezones</span>
+
+                  <strong>
+                    {selectedCountry.timezones.join(', ')
+                    || 'N/A'}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Languages</span>
+
+                  <strong>
+                    {selectedCountry.languages.map((language) => language.name).join(', ')
+                    || 'N/A'}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Currencies</span>
+
+                  <strong>
+                    {selectedCountry.currencies.length > 0 ? (
+                      selectedCountry.currencies.map((currency) => (
+                        <div key={currency.code}>
+                          {currency.name} ({currency.code}) {currency.symbol}
+                        </div>
+                      ))
+                    ) : (
+                      <div>N/A</div>
+                    )}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Calling Codes</span>
+
+                  <strong>
+                    {selectedCountry.calling_codes.join(', ')
+                    || 'N/A'}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Tlds</span>
+
+                  <strong>
+                    {selectedCountry.tlds.join(', ')
+                    || 'N/A'}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Driving Side</span>
+
+                  <strong>
+                    {selectedCountry.cars.driving_side
+                    || 'N/A'}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Government Type</span>
+
+                  <strong>
+                    {selectedCountry.government_type
+                    || 'N/A'}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Links</span>
+
+                  <strong>
+                    {selectedCountry.links ? (
+                      <>
+                        <a href={selectedCountry.links.official} target="_blank">
+                          Official
+                        </a>
+                        <br/>
+                        <a href={selectedCountry.links.open_street_maps} target="_blank">
+                          OpenStreetMap
+                        </a>
+                        <br/>
+                        <a href={selectedCountry.links.google_maps} target="_blank">
+                          Google Maps
+                        </a>
+                        <br/>
+                        <a href={selectedCountry.links.wikipedia} target="_blank">
+                          Wikipedia
+                        </a>
+                      </>
+                    ) : (
+                      'N/A'
+                    )}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Memberships</span>
+
+                  <strong>
+                    {selectedCountry.memberships.un && (
+                      <div>United Nations</div>
+                    )}
+
+                    {selectedCountry.memberships.eu && (
+                      <div>European Union</div>
+                    )}
+
+                    {selectedCountry.memberships.eurozone && (
+                      <div>Eurozone</div>
+                    )}
+
+                    {selectedCountry.memberships.schengen && (
+                      <div>Schengen</div>
+                    )}
+
+                    {selectedCountry.memberships.nato && (
+                      <div>NATO</div>
+                    )}
+
+                    {selectedCountry.memberships.commonwealth && (
+                      <div>Commonwealth</div>
+                    )}
+
+                    {selectedCountry.memberships.oecd && (
+                      <div>OECD</div>
+                    )}
+
+                    {selectedCountry.memberships.g7 && (
+                      <div>G7</div>
+                    )}
+
+                    {selectedCountry.memberships.g20 && (
+                      <div>G20</div>
+                    )}
+
+                    {selectedCountry.memberships.brics && (
+                      <div>BRICS</div>
+                    )}
+
+                    {selectedCountry.memberships.opec && (
+                      <div>OPEC</div>
+                    )}
+
+                    {selectedCountry.memberships.african_union && (
+                      <div>African Union</div>
+                    )}
+
+                    {selectedCountry.memberships.asean && (
+                      <div>ASEAN</div>
+                    )}
+
+                    {selectedCountry.memberships.arab_league && (
+                      <div>Arab League</div>
+                    )}
+
+                    {!selectedCountry.memberships.un &&
+                      !selectedCountry.memberships.eu &&
+                      !selectedCountry.memberships.eurozone &&
+                      !selectedCountry.memberships.schengen &&
+                      !selectedCountry.memberships.nato &&
+                      !selectedCountry.memberships.commonwealth &&
+                      !selectedCountry.memberships.oecd &&
+                      !selectedCountry.memberships.g7 &&
+                      !selectedCountry.memberships.g20 &&
+                      !selectedCountry.memberships.brics &&
+                      !selectedCountry.memberships.opec &&
+                      !selectedCountry.memberships.african_union &&
+                      !selectedCountry.memberships.asean &&
+                      !selectedCountry.memberships.arab_league && (
+                        <div>N/A</div>
+                      )}
+                  </strong>
+                </div>
+
+                <div className="country-info-item">
+                  <span>Classification</span>
+
+                  <strong>
+                    {selectedCountry.classification.sovereign && (
+                      <div>Sovereign</div>
+                    )}
+
+                    {selectedCountry.classification.un_member && (
+                      <div>Full UN member state</div>
+                    )}
+
+                    {selectedCountry.classification.un_observer && (
+                      <div>UN permanent observer state</div>
+                    )}
+
+                    {selectedCountry.classification.disputed && (
+                      <div>Contested or limited international recognition</div>
+                    )}
+
+                    {selectedCountry.classification.dependency && (
+                      <>
+                        <div>
+                          Dependant territory belonging to{' '}
+                          {selectedCountry.parent?.alpha_2}
+                          {' as a'}
+                          {selectedCountry.classification.dependency_type.replace(/_/g, " ")}
+                          {'.'}
+                        </div>
+                      </>
+                    )}
+
+                    {!selectedCountry.classification.sovereign &&
+                      !selectedCountry.classification.un_member &&
+                      !selectedCountry.classification.un_observer &&
+                      !selectedCountry.classification.disputed &&
+                      !selectedCountry.classification.dependency && (
+                        <div>N/A</div>
+                      )}
+                  </strong>
+                </div>
+
+              </div>
 
               <div className="country-actions">
 
