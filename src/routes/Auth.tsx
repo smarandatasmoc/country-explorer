@@ -2,7 +2,16 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 
-type AuthMode = 'login' | 'register'
+import {AuthMode} from '../types/Types'
+
+import SubmitButton from '../components/Auth/SubmitButton'
+import ToLoginRegisterButton from '../components/Auth/ToLoginRegisterButton'
+import DisplayError from '../components/Auth/DisplayError'
+import EmailBar from '../components/Auth/EmailBarProps'
+import PasswordBar from '../components/Auth/PasswordBarProps'
+import ConditionalTitle from '../components/Auth/ConditionalTitle'
+
+import { useHandleSubmit } from '../hooks/Auth/useHandleSubmit'
 
 function Auth() {
   const [mode, setMode] = useState<AuthMode>('login')
@@ -15,42 +24,14 @@ function Auth() {
 
   const navigate = useNavigate()
 
-  const handleSubmit = async () => {
-    setMessage('')
-    setLoading(true)
-
-    if (mode === 'register') {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      })
-
-      if (error) {
-        setMessage(error.message)
-      } else {
-        setMessage(
-          'Account created. Check your email to confirm your account.'
-        )
-      }
-    }
-
-    if (mode === 'login') {
-      const { error } =
-        await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-
-      if (error) {
-        setMessage(error.message)
-      }
-      else{
-        navigate('/country')
-      }
-    }
-
-    setLoading(false)
-  }
+  const handleSubmit = useHandleSubmit({
+  onSetMessage: setMessage,
+  onSetLoading: setLoading,
+  mode,
+  supabase,
+  email,
+  password,
+})
 
   return (
 
@@ -62,52 +43,30 @@ function Auth() {
     <div className="auth-card">
       {
         <div className="page-container">
-      <h1>
-        {mode === 'login' ? 'Login' : 'Create account'}
-      </h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
-      <br/>
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <br/>
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-      >
-        {loading
-          ? 'Please wait...'
-          : mode === 'login'
-            ? 'Login'
-            : 'Register'}
-      </button>
-
-      {message && <p>{message}</p>}
-      <br/>
-      <button
-        onClick={() => {
-          setMode(
-            mode === 'login'
-              ? 'register'
-              : 'login'
-          )
-
-          setMessage('')
-        }}
-      >
-        {mode === 'login'
-          ? 'Create a new account'
-          : 'Already have an account? Login'}
-      </button>
-    </div>
+          <ConditionalTitle mode={mode}/>
+          <EmailBar
+            value={email}
+            onSetValue={setEmail}
+          />
+          <br/>
+          <PasswordBar
+            value = {password}
+            onSetValue={setPassword}
+          />
+          <br/>
+          <SubmitButton 
+            onSubmit={handleSubmit}
+            loading = {loading}
+            mode = {mode}
+          />
+          <DisplayError message={message}/>
+          <br/>
+          <ToLoginRegisterButton
+            onSetMode={setMode}
+            onSetMessage={setMessage}
+            mode={mode}
+          />
+        </div>
       }
     </div>
       

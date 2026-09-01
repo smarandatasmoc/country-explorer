@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import Auth from './routes/Auth'
-import Country from './routes/Country'
+import Search from './routes/Search'
 import Profile from './routes/Profile'
 import ProtectedRoute from './hooks/ProtectedRoute'
 import CountryDetails from './routes/CountryDetails'
@@ -23,10 +23,10 @@ function App() {
         <Route path="/login" element={<Auth />} />
 
         <Route
-          path="/country"
+          path="/search"
           element={
             <ProtectedRoute>
-              <Country />
+              <Search />
             </ProtectedRoute>
           }
         />
@@ -41,7 +41,7 @@ function App() {
         />
 
         <Route
-          path="/profile/country/:id"
+          path="/profile/search/:id"
           element={
             <ProtectedRoute>
               <CountryDetails />
