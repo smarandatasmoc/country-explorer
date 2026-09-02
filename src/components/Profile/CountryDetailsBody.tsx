@@ -25,12 +25,13 @@ export default function CountryDetailsBody (props:{
             <main className="profile-page">
 
                 <CountryDetailsBodyErrorUX error={props.error}/>
+                <br/>
 
                 <CountryDetailsBodyStatus 
                     item={props.item}
                     onHandleStatusChange={props.onHandleStatusChange}
                 />
-
+                <br/>
                 <CountryDetailsBodyPhotos 
                     images={props.images}
                     imageUrls={props.imageUrls}
@@ -38,14 +39,14 @@ export default function CountryDetailsBody (props:{
                     onSetImages={props.onSetImages}
                     onSetImageUrls={props.onSetImageUrls}
                 />
-                
+                <br/>
                 <CountryDetailsBodyNote 
                     item = {props.item}
                     onHandleNoteChange={props.onHandleNoteChange}
                     onHandleSaveNote={props.onHandleSaveNote}
                     savingNote = {props.savingNote}
                 />
-
+                <br/>
                 <section className="country-actions">
 
                     <CountryDetailsBodyDeleteButton 

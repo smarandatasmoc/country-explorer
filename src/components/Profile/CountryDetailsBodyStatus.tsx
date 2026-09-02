@@ -8,7 +8,7 @@ export default function CountryDetailsBodyStatus (props:{
     return (
         <div>
             <select
-                id="country-status"
+                className="status-select"
                 value={props.item.status ?? ''}
                 onChange={(event) => {
                     const value =

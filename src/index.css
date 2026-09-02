@@ -1113,7 +1113,7 @@ p {
   background: var(--colour-secondary);
 }
 
-.auth-card .button-primary:hover {
+.auth-card .button-secondary:hover {
   background: var(--colour-accent);
 }
 
