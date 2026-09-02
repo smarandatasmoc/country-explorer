@@ -8,15 +8,15 @@ export default function ToLoginRegisterButton ({
     return (
         <div>
             <button
-            onClick={() => {
-              onSetMode(
-                mode === 'login'
-                  ? 'register'
-                  : 'login'
-              )
+              onClick={() => {
+                onSetMode(
+                  mode === 'login'
+                    ? 'register'
+                    : 'login'
+                )
 
-              onSetMessage('')
-            }}
+                onSetMessage('')
+              }}
           >
             {mode === 'login'
               ? 'Create a new account'
