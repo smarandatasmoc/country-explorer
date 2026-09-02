@@ -520,11 +520,11 @@ p {
   overflow: hidden;
   border: 1px solid var(--colour-border);
   border-radius: var(--radius-md);
+  background: #fafafa;
 }
 
 .country-info-item {
   padding: 18px;
-  background: #fafafa;
 }
 
 .country-info-item span {
