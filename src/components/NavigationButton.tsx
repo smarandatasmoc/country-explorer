@@ -14,7 +14,7 @@ function NavigationButton({
       className="nav-button"
       onClick={() => navigate(path)}
     >
-      {path === '/country'
+      {path === '/search'
         ? 'Search Countries'
         : 'My Profile'}
     </button>

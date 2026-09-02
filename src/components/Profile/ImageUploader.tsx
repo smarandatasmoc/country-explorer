@@ -3,7 +3,7 @@ import { useState } from 'react'
 import {
   uploadImages,
   type ListItemImage,
-} from '../lib/images'
+} from '../../lib/images'
 
 type ImageUploaderProps = {
   listItemId: number

@@ -10,18 +10,18 @@ import {
   deleteListItem,
   type ListItem,
   type ListItemStatus,
-} from '../lib/listItems'
+} from '../../lib/listItems'
 
 import {
   getImagesForListItem,
   getImageUrls,
   deleteImage,
   type ListItemImage,
-} from '../lib/images'
+} from '../../lib/images'
 
-import ImageUploader from '../components/ImageUploader'
-import PhotoAlbum from '../components/PhotoAlbum'
-import Footer from '../components/Footer'
+import Footer from '../Footer'
+import CountryDetailsHeader from './CountryDetailsHeader'
+import CountryDetailsBody from './CountryDetailsBody'
 
 function CountryDetails() {
   const { id } = useParams()
@@ -44,10 +44,6 @@ function CountryDetails() {
 
   const [savingNote, setSavingNote] =
     useState(false)
-
-  /*
-   * LOAD COUNTRY + IMAGES
-   */
 
   useEffect(() => {
     async function loadCountry() {
@@ -108,10 +104,6 @@ function CountryDetails() {
     loadCountry()
   }, [id])
 
-  /*
-   * STATUS
-   */
-
   const handleStatusChange = async (
     status: ListItemStatus | null
   ) => {
@@ -140,10 +132,6 @@ function CountryDetails() {
       }
     }
   }
-
-  /*
-   * NOTE
-   */
 
   const handleNoteChange = (
     note: string
@@ -190,10 +178,6 @@ function CountryDetails() {
     }
   }
 
-  /*
-   * DELETE COUNTRY
-   */
-
   const handleDelete = async () => {
     if (!item) {
       return
@@ -225,10 +209,6 @@ function CountryDetails() {
       }
     }
   }
-
-  /*
-   * DELETE IMAGE
-   */
 
   const handleDeleteImage = async (
     image: ListItemImage
@@ -281,10 +261,6 @@ function CountryDetails() {
     }
   }
 
-  /*
-   * LOADING
-   */
-
   if (loading) {
     return (
       <div className="app-page">
@@ -292,10 +268,6 @@ function CountryDetails() {
       </div>
     )
   }
-
-  /*
-   * ERROR
-   */
 
   if (error && !item) {
     return (
@@ -319,215 +291,25 @@ function CountryDetails() {
     return null
   }
 
-  /*
-   * PAGE
-   */
-
   return (
     <div className="app-page">
 
-      <header className="page-header">
+      <CountryDetailsHeader item={item}/>
 
-        <div>
-
-          <p className="eyebrow">
-            MY DESTINATION
-          </p>
-
-          <h1>
-            {item.country_name}
-          </h1>
-
-          <p className="page-description">
-            {item.country_code}
-          </p>
-
-        </div>
-
-        <button
-          onClick={() =>
-            navigate('/profile')
-          }
-        >
-          ← Back to profile
-        </button>
-
-      </header>
-
-      <main className="profile-page">
-
-        {error && (
-          <div className="message message-error">
-            {error}
-          </div>
-        )}
-
-        {/* STATUS */}
-
-        <section className="country-section">
-
-          <label htmlFor="country-status">
-            Status
-          </label>
-
-          <select
-            id="country-status"
-            value={item.status ?? ''}
-            onChange={(event) => {
-
-              const value =
-                event.target.value
-
-              handleStatusChange(
-                value === ''
-                  ? null
-                  : (value as ListItemStatus)
-              )
-
-            }}
-          >
-
-            <option value="">
-              Select status
-            </option>
-
-            <option value="want">
-              Want to visit
-            </option>
-
-            <option value="visited">
-              Visited
-            </option>
-
-          </select>
-
-        </section>
-
-        {/* PHOTOS */}
-
-        <section className="album-section">
-
-          <div className="section-heading">
-
-            <div>
-              <p className="eyebrow">
-                MEMORIES
-              </p>
-
-              <h2>
-                My photos
-              </h2>
-            </div>
-
-            <span>
-              {images.length}{' '}
-              {images.length === 1
-                ? 'photo'
-                : 'photos'}
-            </span>
-
-          </div>
-
-          {images.length === 0 ? (
-
-            <p className="empty-album">
-              You haven't uploaded any
-              photos yet.
-            </p>
-
-          ) : (
-
-            <PhotoAlbum
-              images={images
-                .map(
-                  (image) =>
-                    imageUrls[image.id]
-                )
-                .filter(
-                  (
-                    url
-                  ): url is string =>
-                    Boolean(url)
-                )}
-            />
-
-          )}
-
-          <ImageUploader
-            listItemId={item.id}
-            onUploaded={async (
-              newImages
-            ) => {
-
-              setImages(
-                (currentImages) => [
-                  ...currentImages,
-                  ...newImages,
-                ]
-              )
-
-              const newUrls =
-                await getImageUrls(
-                  newImages
-                )
-
-              setImageUrls(
-                (currentUrls) => ({
-                  ...currentUrls,
-                  ...newUrls,
-                })
-              )
-
-            }}
-          />
-
-        </section>
-
-        {/* NOTE */}
-
-        <section className="country-section">
-
-          <label htmlFor="country-note">
-            Note
-          </label>
-
-          <textarea
-            id="country-note"
-            value={item.note ?? ''}
-            onChange={(event) =>
-              handleNoteChange(
-                event.target.value
-              )
-            }
-            placeholder="Write something about this country..."
-          />
-
-          <button
-            className="save-note-button"
-            onClick={handleSaveNote}
-            disabled={savingNote}
-          >
-            {savingNote
-              ? 'Saving...'
-              : 'Save note'}
-          </button>
-
-        </section>
-
-        {/* REMOVE */}
-
-        <section className="country-actions">
-
-          <button
-            className="remove-country-button"
-            onClick={handleDelete}
-          >
-            Remove from list
-          </button>
-
-        </section>
-
-      </main>
+      <CountryDetailsBody
+        error = {error}
+        item = {item}
+        onHandleStatusChange={handleStatusChange}
+        images={images}
+        imageUrls={imageUrls}
+        onSetImages={setImages}
+        onSetImageUrls={setImageUrls}
+        onHandleNoteChange={handleNoteChange}
+        onHandleSaveNote={handleSaveNote}
+        savingNote={savingNote}
+        handleDelete={handleDelete}
+      />
+      
       <Footer/>
 
     </div>

@@ -20,6 +20,10 @@ import { Country } from "../api/countriesAPI"
     /* SetSelectedCountryCountryProp */
     /* SidePanelProps */
     /* SidePanelAddButtonProps */ 
+    /* useHandleAddToListProps */
+    /* AddButtonProps */
+
+/*Profile Types*/
 
 export type AuthMode = 'login' | 'register'
 
@@ -110,3 +114,4 @@ export type AddButtonProps ={
     onHandleAddToList: () => Promise<void>
     adding: boolean
 }
+

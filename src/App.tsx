@@ -9,7 +9,7 @@ import Auth from './routes/Auth'
 import Search from './routes/Search'
 import Profile from './routes/Profile'
 import ProtectedRoute from './hooks/ProtectedRoute'
-import CountryDetails from './routes/CountryDetails'
+import CountryDetails from './components/Profile/CountryDetails'
 
 function App() {
   return (

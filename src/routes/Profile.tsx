@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-
-import LogOutButton from '../components/LogOutButton'
-import NavigationButton from '../components/NavigationButton'
-import ProfileBoard from '../components/ProfileBoard'
-
 import {
   getListItems,
   type ListItem,
 } from '../lib/listItems'
 import Footer from '../components/Footer'
+import ProfileHeader from '../components/Profile/ProfileHeader'
+import ProfileErrorUX from '../components/Profile/ProfileErrorUX'
+import ProfileSummary from '../components/Profile/ProfileSummary'
+import ProfileEmptyState from '../components/Profile/ProfileEmptyState'
+import ProfilePopulated from '../components/Profile/ProfilePopulated'
 
 function Profile() {
 
@@ -75,182 +75,29 @@ function Profile() {
     )
   }
 
-
   return (
     <div className="app-page">
 
-      <header className="page-header">
-
-        <div>
-
-          <p className="eyebrow">
-            YOUR JOURNEY
-          </p>
-
-          <h1>
-            My Travel List
-          </h1>
-
-          <p className="page-description">
-            Keep track of the places you want
-            to visit and the places you've
-            already explored.
-          </p>
-
-        </div>
-
-
-        <div className="header-actions">
-
-          <NavigationButton
-            path="/country"
-          />
-
-          <LogOutButton />
-
-        </div>
-
-      </header>
-
+      <ProfileHeader/>
 
       <main className="profile-page">
 
-        {error && (
-          <div className="message message-error">
-            {error}
-          </div>
-        )}
+        <ProfileErrorUX error={error}/>
 
-
-        {/* SUMMARY */}
-
-        {items.length > 0 && (
-
-          <div className="profile-summary">
-
-            <div className="summary-card">
-
-              <span className="summary-number">
-                {items.length}
-              </span>
-
-              <span className="summary-label">
-                Countries
-              </span>
-
-            </div>
-
-
-            <div className="summary-card">
-
-              <span className="summary-number">
-
-                {
-                  items.filter(
-                    (item) =>
-                      item.status === 'visited'
-                  ).length
-                }
-
-              </span>
-
-              <span className="summary-label">
-                Visited
-              </span>
-
-            </div>
-
-
-            <div className="summary-card">
-
-              <span className="summary-number">
-
-                {
-                  items.filter(
-                    (item) =>
-                      item.status === 'want'
-                  ).length
-                }
-
-              </span>
-
-              <span className="summary-label">
-                Want to visit
-              </span>
-
-            </div>
-
-          </div>
-
-        )}
-
-
-        {/* EMPTY STATE */}
+        <ProfileSummary items={items}/>
 
         {items.length === 0 ? (
-
-          <div className="empty-state profile-empty">
-
-            <div className="empty-icon">
-              🧭
-            </div>
-
-            <h2>
-              Your travel list is empty
-            </h2>
-
-            <p>
-              Start exploring countries and
-              add destinations you'd like
-              to visit.
-            </p>
-
-            <NavigationButton
-              path="/country"
-            />
-
-          </div>
-
+          <ProfileEmptyState/>
         ) : (
 
-          <section className="profile-list">
-
-            <div className="section-heading">
-
-              <div>
-
-                <p className="eyebrow">
-                  YOUR DESTINATIONS
-                </p>
-
-                <h2>
-                  Saved countries
-                </h2>
-
-              </div>
-
-            </div>
-
-
-            <div className="profile-grid">
-
-              {items.map((item) => (
-
-                <ProfileBoard
-                  key={item.id}
-                  item={item}
-                />
-
-              ))}
-
-            </div>
-
-          </section>
+          <ProfilePopulated items={items}/>
 
         )}
 
       </main>
+
       <Footer/>
+
     </div>
   )
 }
