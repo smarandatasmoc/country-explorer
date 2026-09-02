@@ -11,9 +11,15 @@ import ErrorUX from '../components/Search/ErrorUX'
 import InvalidSearchUX from '../components/Search/InvalidSearchUX'
 import SearchResult from '../components/Search/SearchResult'
 import SidePanel from '../components/Search/SidePanel'
+import { getCountries } from '../api/getCountries'
+import BrowseBackwardButton from '../components/Search/BrowseBackwardButton'
+import BrowseForwardButton from '../components/Search/BrowseForwardButton'
+import NavBrowse from '../components/Search/NavBrowse'
 
 function Search() {
   const HTTP_RESPONSE_BAD_REQUEST:number = 400
+
+  const [offset, setOffset] = useState(0)
 
   const [search, setSearch] = useState('')
 
@@ -39,8 +45,28 @@ function Search() {
     const trimmedSearch = search.trim()
 
     if (!trimmedSearch) {
-      setCountries([])
       setError(null)
+      setLoading(true)
+
+      async function loadCountries() {
+        try {
+          const results = await getCountries({ offset })
+          setCountries(results)
+        } catch (error) {
+          if (error instanceof Error) {
+            setError(error.message)
+          } else {
+            setError('Something went wrong')
+          }
+
+          setCountries([])
+        } finally {
+          setLoading(false)
+        }
+      }
+
+      loadCountries()
+
       return
     }
 
@@ -82,7 +108,7 @@ function Search() {
       clearTimeout(timeoutId)
       controller.abort()
     }
-  }, [search])
+  }, [search, offset])
 
   const handleAddToList = async () => {
   if (!selectedCountry) {
@@ -146,6 +172,13 @@ function Search() {
         onSelectedCountry={selectedCountry}
         onSetSelectedCountry={setSelectedCountry}
       />
+
+      <NavBrowse
+        search={search}
+        offset={offset}
+        onSetOffset={setOffset}
+      />
+
     </main>
     <Footer/>
   </div>

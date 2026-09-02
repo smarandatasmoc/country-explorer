@@ -1312,3 +1312,15 @@ p {
     font-size: 1.7rem;
   }
 }
+
+.nav-browse {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-browse button {
+  padding: 5px 12px;
+}

@@ -8,10 +8,15 @@ const API_URL =
 const API_KEY =
   import.meta.env.VITE_REST_COUNTRIES_API_KEY
 
-export async function getCountries(): Promise<Country[]> {
+const NUMBER_OF_RESULTS:string = '20'
+
+export async function getCountries(props:{ 
+  offset:number
+}): Promise<Country[]> {
   const params = new URLSearchParams({
     response_fields: responseFields,
-    limit: '100',
+    limit: NUMBER_OF_RESULTS,
+    offset: props.offset.toString()
   })
 
   const response = await fetch(
