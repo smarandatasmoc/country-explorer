@@ -8,6 +8,8 @@ const API_URL =
 const API_KEY =
   import.meta.env.VITE_REST_COUNTRIES_API_KEY
 
+const NUMBER_OF_RESULTS:string = '20'
+
 export async function searchCountries(
   query: string,
   signal?: AbortSignal
@@ -15,7 +17,7 @@ export async function searchCountries(
   const params = new URLSearchParams({
     q: query,
     response_fields: responseFields,
-    limit: '20',
+    limit: NUMBER_OF_RESULTS,
   })
 
   const response = await fetch(

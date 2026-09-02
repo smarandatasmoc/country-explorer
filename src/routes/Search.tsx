@@ -13,6 +13,8 @@ import SearchResult from '../components/Search/SearchResult'
 import SidePanel from '../components/Search/SidePanel'
 
 function Search() {
+  const HTTP_RESPONSE_BAD_REQUEST:number = 400
+
   const [search, setSearch] = useState('')
 
   const [countries, setCountries] = useState<
@@ -74,7 +76,7 @@ function Search() {
           setLoading(false)
         }
       }
-    }, 400)
+    }, HTTP_RESPONSE_BAD_REQUEST)
     
     return () => {
       clearTimeout(timeoutId)
