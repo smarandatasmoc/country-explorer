@@ -18,7 +18,6 @@ export default function ProfileSummary (props:{
                     <span className="summary-label">
                         Countries
                     </span>
-
                     </div>
 
 

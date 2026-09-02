@@ -89,7 +89,6 @@ function Profile() {
         {items.length === 0 ? (
           <ProfileEmptyState/>
         ) : (
-
           <ProfilePopulated items={items}/>
 
         )}
