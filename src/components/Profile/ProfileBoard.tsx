@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import {
   type ListItem,
@@ -9,6 +8,8 @@ import ProfileBoardInfoItem from './ProfileBoardInfoItem'
 import ProfileBoardStatusItem from './ProfileBoardStatusItem'
 import ProfileBoardCountItem from './ProfileBoardCountItem'
 import ProfileBoardDetailsButton from './ProfileBoardDetailsButton'
+import {getImageCount} from '../../lib/images'
+import { useEffect } from 'react'
 
 type ProfileBoardProps = {
   item: ListItem
@@ -18,8 +19,18 @@ export default function ProfileBoard({
   item,
 }: ProfileBoardProps) {
 
-  const [photoCount, _] =
+  const [photoCount, setPhotoCount] =
     useState(0)
+
+  useEffect(() => {
+    async function loadPhotoCount() {
+      const count = await getImageCount(item.id)
+
+      setPhotoCount(count)
+    }
+
+    loadPhotoCount()
+  }, [item.id])
 
   return (
     <article className="country-card">
