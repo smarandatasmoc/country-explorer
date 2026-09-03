@@ -165,6 +165,9 @@ function CountryDetails() {
 
       setItem(updatedItem)
 
+        // Keep "Saving..." visible for at least 800ms
+        await new Promise(resolve => setTimeout(resolve, 800));
+
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message)
