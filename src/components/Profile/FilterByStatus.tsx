@@ -5,7 +5,7 @@ export default function FilterByStatus (props:{
     setStatusFilter: React.Dispatch<React.SetStateAction<ListItemStatus>>
 }) {
     return (
-        <div className="sort-select">
+        <div>
             
             <select value={props.statusFilter ?? ''} onChange={(event)=>
                 {   
