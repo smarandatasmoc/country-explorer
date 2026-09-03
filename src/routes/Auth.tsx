@@ -59,13 +59,14 @@ function Auth() {
             loading = {loading}
             mode = {mode}
           />
-          <DisplayError message={message}/>
           <br/>
           <ToLoginRegisterButton
             onSetMode={setMode}
             onSetMessage={setMessage}
             mode={mode}
           />
+          <br/>
+          <DisplayError message={message}/>
         </div>
       }
     </div>

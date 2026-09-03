@@ -1324,3 +1324,7 @@ p {
 .nav-browse button {
   padding: 5px 12px;
 }
+
+.centered-ux {
+  text-align: center;
+}
