@@ -20,7 +20,7 @@ import SidePanelMembership from "./SidePanelMembership";
 import SidePanelMessageUX from "./SidePanelMessageUX";
 import SidePanelPopulation from "./SidePanelPopulation";
 import SidePanelRegion from "./SidePanelRegion";
-import SidePaneSubRegion from "./SidePanelSubregion";
+import SidePaneSubRegion from "./SidePanelSubRegion";
 import SidePanelTimezones from "./SidePanelTimezones";
 import SidePanelTlds from "./SidePanelTlds";
 import SidePanelUnits from "./SidePanelUnits";
