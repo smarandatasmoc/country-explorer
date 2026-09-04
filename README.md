@@ -96,43 +96,5 @@ npm run dev
 ```
 and search ```http://localhost:your_port_number``` in the browser.
 
----
-
-## Project Structure
-
-src/
-├── api/
-|    ├──countriesAPI.tsx
-|    ├── getCountries.tsx
-|    └── searchCountries.tsx
-|
-├── components/
-│   ├── Auth/
-│   ├── Profile/
-│   ├── Search/
-│   └── ...
-│
-├── hooks/
-│   └── ...
-|
-├── lib/
-│   ├── images.ts
-│   ├── listitems.ts
-│   ├── profile.ts
-│   └── supabase.ts
-│
-├── routes/
-│   ├── Auth.tsx
-│   ├── Search/
-│   └── Profile.tsx
-│
-├── types/
-│   └── Types.tsx
-│
-├── App.tsx
-├── main.tsx
-├── supabaseClient.tsx
-└── index.css
-
 
 
