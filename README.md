@@ -47,15 +47,7 @@ Before running the project, make sure you have installed:
 
 - Node.js
 - npm
-- Git
 
-You can check your installed versions with:
-
-```bash
-node --version
-npm --version
-git --version
-```
 ---
 
 ## Getting Started
@@ -72,13 +64,26 @@ Move into the project directory:
 cd <PROJECT_DIRECTORY>
 ```
 
+### 2. Initialise a Vite project
+
+```bash
+npm create vite@latest -- --template react-ts
+```
+
 ### 2. Install dependencies
 
 ```bash
-npm install
+npm install @supabase/supabase-js react react-dom react-router-dom
 ```
 
 ### 3. Set up environment variables
+
+The application requires the following environment variables:
+
+| Variable                        | Description                 |
+| ------------------------------- | --------------------------- |
+| `VITE_SUPABASE_URL`             | URL of the Supabase project |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key    |
 
 ---
 
@@ -93,13 +98,41 @@ and search ```http://localhost:your_port_number``` in the browser.
 
 ---
 
-## Environment Variables
+## Project Structure
 
-The application requires the following environment variables:
+src/
+├── api/
+|    ├──countriesAPI.tsx
+|    ├── getCountries.tsx
+|    └── searchCountries.tsx
+|
+├── components/
+│   ├── Auth/
+│   ├── Profile/
+│   ├── Search/
+│   └── ...
+│
+├── hooks/
+│   └── ...
+|
+├── lib/
+│   ├── images.ts
+│   ├── listitems.ts
+│   ├── profile.ts
+│   └── supabase.ts
+│
+├── routes/
+│   ├── Auth.tsx
+│   ├── Search/
+│   └── Profile.tsx
+│
+├── types/
+│   └── Types.tsx
+│
+├── App.tsx
+├── main.tsx
+├── supabaseClient.tsx
+└── index.css
 
-| Variable                        | Description                 |
-| ------------------------------- | --------------------------- |
-| `VITE_SUPABASE_URL`             | URL of the Supabase project |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key    |
 
 
