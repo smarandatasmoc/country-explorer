@@ -6,10 +6,11 @@ Users can search for countries, add countries to their personal list, manage the
 ---
 
 ## Tech Stack
-- React, TypeScript, Vite, CSS
-- Supabase for authentication, storage, and database.
-- REST Countries API for country information and search.
-- Vercel for deployment.
+- Frontend: React, TypeScript, Vite, CSS
+- Backend / Database: Supabase for authentication, storage, and CRUD entity.
+- APIs: REST Countries API for country information and search.
+- Deployment: Vercel for hosting the web app.
+- Version Control and Project Management: GitHub repository, GitHub kanban board for tracking issues and progress.
 
 ---
 
@@ -36,39 +37,8 @@ Countries in a user's list can have different statuses, such as:
 
 - Want to Visit
 - Visited
-- Currently Living
-
----
-
-## Tech Stack
-
-### Frontend
-
-- React
-- TypeScript
-- Vite
-- React Router
-- CSS
-
-### Backend / Database
-
-- Supabase
-- Supabase Authentication
-- Supabase Storage
-
-### APIs
-
-- REST Countries API for country information and search
-
-### Deployment
-
-- Vercel
-
-### Version Control and Project Management
-
-- GitHub repository.
-- GitHub project for tracking progress.
-
+- N/A
+  
 ---
 
 ## Requirements
