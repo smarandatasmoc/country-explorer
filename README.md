@@ -2,16 +2,6 @@
 A web app to explore countries and build a personal "places to visit" list using React, TypeScript, Vite, Supabase, and Countries API. 
 
 Users can search for countries, add countries to their personal list, manage their travel status, add notes, and upload photos to country-specific albums.
-
----
-
-## Tech Stack
-- **Frontend**: React, TypeScript, Vite, CSS
-- **Backend / Database**: Supabase for authentication, storage, and CRUD entity.
-- **APIs**: REST Countries API for country information and search.
-- **Deployment**: Vercel for hosting the web app.
-- **Version Control and Project Management**: GitHub repository, GitHub kanban board for tracking issues and progress.
-
 ---
 
 ## Features
@@ -30,14 +20,14 @@ Users can search for countries, add countries to their personal list, manage the
 - Personal profile/dashboard
 - Responsive layout for different screen sizes
 - Protected routes for authenticated users
+---
 
-### Country Statuses
-
-Countries in a user's list can have different statuses, such as:
-
-- Want to Visit
-- Visited
-- N/A
+## Tech Stack
+- **Frontend**: React, TypeScript, Vite, CSS
+- **Backend / Database**: Supabase for authentication, storage, and CRUD entity.
+- **APIs**: REST Countries API for country information and search.
+- **Deployment**: Vercel for hosting the web app.
+- **Version Control and Project Management**: GitHub repository, GitHub kanban board for tracking issues and progress.
   
 ---
 
