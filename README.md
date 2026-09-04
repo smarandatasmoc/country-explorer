@@ -37,7 +37,8 @@ Before running the project, make sure you have installed:
 
 - Node.js
 - npm
-
+- Git
+  
 ---
 
 ## Getting Started
