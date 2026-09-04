@@ -2,6 +2,7 @@
 A web app to explore countries and build a personal "places to visit" list using React, TypeScript, Vite, Supabase, and Countries API. 
 
 Users can search for countries, add countries to their personal list, manage their travel status, add notes, and upload photos to country-specific albums.
+
 ---
 
 ## Features
