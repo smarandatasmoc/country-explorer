@@ -28,7 +28,6 @@ Users can search for countries, add countries to their personal list, manage the
 - **Backend / Database**: Supabase for authentication, storage, and CRUD entity.
 - **APIs**: REST Countries API for country information and search.
 - **Deployment**: Vercel for hosting the web app.
-- **Version Control and Project Management**: GitHub repository, GitHub kanban board for tracking issues and progress.
   
 ---
 
