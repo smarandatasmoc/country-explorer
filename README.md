@@ -5,6 +5,14 @@ Users can search for countries, add countries to their personal list, manage the
 
 ---
 
+## Tech Stack
+- React, TypeScript, Vite, CSS
+- Supabase for authentication, storage, and database.
+- REST Countries API for country information and search.
+- Vercel for deployment.
+
+---
+
 ## Features
 
 - User registration and login
@@ -14,9 +22,9 @@ Users can search for countries, add countries to their personal list, manage the
 - Add countries to a personal travel list
 - Track the status of each country
 - Add personal notes to countries
+- Filter countries by status
 - Upload photos to country albums
 - View photos in a full-screen album viewer
-- Delete individual photos
 - Remove countries from your personal list
 - Personal profile/dashboard
 - Responsive layout for different screen sizes
@@ -51,6 +59,15 @@ Countries in a user's list can have different statuses, such as:
 ### APIs
 
 - REST Countries API for country information and search
+
+### Deployment
+
+- Vercel
+
+### Version Control and Project Management
+
+- GitHub repository.
+- GitHub project for tracking progress.
 
 ---
 
