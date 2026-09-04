@@ -55,3 +55,51 @@ You can check your installed versions with:
 node --version
 npm --version
 git --version
+```
+---
+
+## Getting Started
+
+### 1. Clone the project to your computer
+
+```bash
+git clone <YOUR_REPOSITORY_URL>
+```
+
+Move into the project directory:
+
+```bash
+cd <PROJECT_DIRECTORY>
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+---
+
+## Running the Application
+
+Once the dependencies and environment variables are configured, start the development server:
+
+```bash
+npm run dev
+```
+and search ```http://localhost:your_port_number``` in the browser.
+
+---
+
+## Environment Variables
+
+The application requires the following environment variables:
+
+| Variable                        | Description                 |
+| ------------------------------- | --------------------------- |
+| `VITE_SUPABASE_URL`             | URL of the Supabase project |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key    |
+
+
